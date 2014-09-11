@@ -21,6 +21,7 @@
 		81095C8119C248450077F277 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81095C6319C248450077F277 /* UIKit.framework */; };
 		81095C8919C248450077F277 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 81095C8719C248450077F277 /* InfoPlist.strings */; };
 		81095C8B19C248450077F277 /* sudokuTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81095C8A19C248450077F277 /* sudokuTests.m */; };
+		81095C9619C2490A0077F277 /* BLHLGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = 81095C9519C2490A0077F277 /* BLHLGrid.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,8 @@
 		81095C8619C248450077F277 /* sudokuTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "sudokuTests-Info.plist"; sourceTree = "<group>"; };
 		81095C8819C248450077F277 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		81095C8A19C248450077F277 /* sudokuTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = sudokuTests.m; sourceTree = "<group>"; };
+		81095C9419C2490A0077F277 /* BLHLGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLHLGrid.h; sourceTree = "<group>"; };
+		81095C9519C2490A0077F277 /* BLHLGrid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLHLGrid.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +120,8 @@
 				81095C7119C248450077F277 /* Main.storyboard */,
 				81095C7419C248450077F277 /* BLHLViewController.h */,
 				81095C7519C248450077F277 /* BLHLViewController.m */,
+				81095C9419C2490A0077F277 /* BLHLGrid.h */,
+				81095C9519C2490A0077F277 /* BLHLGrid.m */,
 				81095C7719C248450077F277 /* Images.xcassets */,
 				81095C6619C248450077F277 /* Supporting Files */,
 			);
@@ -251,6 +256,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				81095C7619C248450077F277 /* BLHLViewController.m in Sources */,
+				81095C9619C2490A0077F277 /* BLHLGrid.m in Sources */,
 				81095C7019C248450077F277 /* BLHLAppDelegate.m in Sources */,
 				81095C6C19C248450077F277 /* main.m in Sources */,
 			);
