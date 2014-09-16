@@ -46,16 +46,15 @@ NSMutableArray* gridButtons;
                     rowY = rowY + smallBoundary;
                 }
                 
-                UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+                    
+                UIButton *btn = [self makeButtonWithSize: buttonSize withXCoord:colX andYCoord:rowY];
+                btn.tag = counter*10+counter2;
                 
-                [self setButton:button withSize: buttonSize withXCoord:colX andYCoord:rowY];
-                button.tag = counter*10+counter2;
+                [gridButtons addObject:(UIButton*) btn];
+                //UIButton *bttn = (UIButton *)gridButtons[(counter-1)*9 + counter2 - 1];
+                btn.tag = counter*10+counter2;
                 
-                [gridButtons addObject:(UIButton*) button];
-                //UIButton *btn = (UIButton *)gridButtons[(counter-1)*10 + counter2 - 1];
-                //btn.tag = counter*10+counter2;
-                
-                NSLog(@"tag: %d", button.tag);
+                NSLog(@"tag: %d", btn.tag);
 
                 
                 counter2++;
@@ -79,18 +78,21 @@ NSMutableArray* gridButtons;
 }
 */
 
-- (void)setButton: (UIButton*) button withSize:(CGFloat)size withXCoord: (CGFloat)x andYCoord: (CGFloat)y
+- (UIButton*)makeButtonWithSize:(CGFloat)size withXCoord: (CGFloat)x andYCoord: (CGFloat)y
 {
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+
     CGRect buttonFrame = CGRectMake(x, y, size, size);
     button = [[UIButton alloc] initWithFrame:buttonFrame];
     button.backgroundColor = [UIColor whiteColor];
     button.showsTouchWhenHighlighted = true;
-    [button setTitle:(NSString *)@"1" forState:(UIControlState)UIControlStateNormal];
+//    [button setTitle:(NSString *)@"1" forState:(UIControlState)UIControlStateNormal];
     [button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [self addSubview:button];
     
     // create target for button
     [button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    return button;
 }
 
 - (void)buttonPressed:(UIButton*)sender
@@ -102,9 +104,10 @@ NSMutableArray* gridButtons;
 
 - (void)setValueAtRow: (int)row column: (int)column to: (NSInteger)value
 {
-    
-    //[gridButtons[(row-1)*10+(column-1)] setTitle:(@"%d", value) forState:(UIControlState)UIControlStateNormal];
-    
+    NSString *newVal = [NSString stringWithFormat:@"%d", value];
+    if (value > 0){
+        [gridButtons[(column-1)*9+(row-1)] setTitle:(newVal) forState:(UIControlState)UIControlStateNormal];
+    }
 }
 
 @end

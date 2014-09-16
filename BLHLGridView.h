@@ -10,4 +10,8 @@
 
 @interface BLHLGridView : UIView
 
+- (void) setValueAtRow: (int)row column: (int)column to: (NSInteger)value;
+
+
+
 @end

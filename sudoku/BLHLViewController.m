@@ -22,7 +22,7 @@ int initialGrid[9][9]={
 };
 
 @interface BLHLViewController () {
-    UIView* _gridView;
+    BLHLGridView* _gridView;
 }
 
 @end
@@ -46,6 +46,11 @@ int initialGrid[9][9]={
     _gridView = [[BLHLGridView alloc] initWithFrame:gridFrame];
     _gridView.backgroundColor = [UIColor blackColor];
     [self.view addSubview:_gridView];
+    for (int col = 1; col < 10; ++col) {
+        for (int row = 1; row < 10; ++row) {
+            [_gridView setValueAtRow: row column: col to: initialGrid[col-1][row-1]];
+        }
+    }
     
 }
 
