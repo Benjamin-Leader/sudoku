@@ -12,6 +12,6 @@
 
 - (void) setValueAtRow: (int)row column: (int)column to: (NSInteger)value;
 
-
+- (UIImage *)imageWithColor:(UIColor *)color;
 
 @end

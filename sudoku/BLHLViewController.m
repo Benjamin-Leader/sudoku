@@ -46,6 +46,8 @@ int initialGrid[9][9]={
     _gridView = [[BLHLGridView alloc] initWithFrame:gridFrame];
     _gridView.backgroundColor = [UIColor blackColor];
     [self.view addSubview:_gridView];
+    
+    // put initial values into appropriate cells
     for (int col = 1; col < 10; ++col) {
         for (int row = 1; row < 10; ++row) {
             [_gridView setValueAtRow: row column: col to: initialGrid[col-1][row-1]];
@@ -57,7 +59,6 @@ int initialGrid[9][9]={
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 

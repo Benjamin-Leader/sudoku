@@ -12,81 +12,76 @@
 
 NSMutableArray* gridButtons;
 
+CGFloat BLHLButtonSizeRatio = 12.0;
+CGFloat BLHLLargeBoundaryRatio = 24.0;
+CGFloat BLHLSmallBoundaryRatio = 72.0;
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
         
+        // Create array to hold cells
         gridButtons = [NSMutableArray array];
         
-        // Initialization code
-        CGFloat buttonSize = frame.size.width/12.0;
-        CGFloat largeBoundary = frame.size.width/24.0;
-        CGFloat smallBoundary = frame.size.width/72.0;
+        // Initialize ratios for cell placement
+        CGFloat buttonSize = frame.size.width/BLHLButtonSizeRatio;
+        CGFloat largeBoundary = frame.size.width/BLHLLargeBoundaryRatio;
+        CGFloat smallBoundary = frame.size.width/BLHLSmallBoundaryRatio;
         
-        NSInteger counter = 1;
-        CGFloat colX = 0.0;
+        CGFloat columnLeftMargin = 0.0;
         // create each column of buttons
-        while (counter <= 9) {
+        for (int column = 1; column <= 9; ++column) {
             
-            
-            if (counter%3 == 1) {
-                colX = colX + largeBoundary;
+            // Shift over by large boundary every third cell. Otherwise, shift by small boundary
+            if (column%3 == 1) {
+                columnLeftMargin = columnLeftMargin + largeBoundary;
             } else {
-                colX = colX + smallBoundary;
+                columnLeftMargin = columnLeftMargin + smallBoundary;
             }
             
-            NSInteger counter2 = 1;
-            CGFloat rowY = 0.0;
+            CGFloat rowTopMargin = 0.0;
             
-                while (counter2 <= 9) {
-                if (counter2%3 == 1) {
-                    rowY = rowY + largeBoundary;
+            // create each row of buttons
+            for (int row = 1; row <= 9; ++row) {
+                
+                // Shift down by large boundary every third cell. Otherwise, shift by small boundary
+                if (row%3 == 1) {
+                    rowTopMargin = rowTopMargin + largeBoundary;
                 } else {
-                    rowY = rowY + smallBoundary;
+                    rowTopMargin = rowTopMargin + smallBoundary;
                 }
                 
-                    
-                UIButton *btn = [self makeButtonWithSize: buttonSize withXCoord:colX andYCoord:rowY];
-                btn.tag = counter*10+counter2;
+                // create a button in the current cell ([col][row])
+                UIButton *btn = [self makeButtonWithSize: buttonSize withXCoord:columnLeftMargin andYCoord:rowTopMargin];
+                btn.tag = column*10+row;
                 
+                // Add button to the button array
                 [gridButtons addObject:(UIButton*) btn];
-                //UIButton *bttn = (UIButton *)gridButtons[(counter-1)*9 + counter2 - 1];
-                btn.tag = counter*10+counter2;
+                btn.tag = column*10+row;
                 
                 NSLog(@"tag: %d", btn.tag);
-
                 
-                counter2++;
-                rowY = rowY + buttonSize;
+                
+                rowTopMargin = rowTopMargin + buttonSize;
             }
-          
-            counter++;
-            colX = colX + buttonSize;
+            
+            columnLeftMargin = columnLeftMargin + buttonSize;
         }
     }
     
     return self;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
-
 - (UIButton*)makeButtonWithSize:(CGFloat)size withXCoord: (CGFloat)x andYCoord: (CGFloat)y
 {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
 
+    // initialize button with default cell properties
     CGRect buttonFrame = CGRectMake(x, y, size, size);
     button = [[UIButton alloc] initWithFrame:buttonFrame];
     button.backgroundColor = [UIColor whiteColor];
-    button.showsTouchWhenHighlighted = true;
-//    [button setTitle:(NSString *)@"1" forState:(UIControlState)UIControlStateNormal];
+    [button setBackgroundImage:[self imageWithColor:[UIColor greenColor]] forState:UIControlStateHighlighted];
     [button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [self addSubview:button];
     
@@ -105,9 +100,27 @@ NSMutableArray* gridButtons;
 - (void)setValueAtRow: (int)row column: (int)column to: (NSInteger)value
 {
     NSString *newVal = [NSString stringWithFormat:@"%d", value];
+    
+    // Insert new number into row if there is an appropriate value
     if (value > 0){
         [gridButtons[(column-1)*9+(row-1)] setTitle:(newVal) forState:(UIControlState)UIControlStateNormal];
     }
+}
+
+// used to create highlighted background for button
+- (UIImage *)imageWithColor:(UIColor *)color
+{
+    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
 }
 
 @end
