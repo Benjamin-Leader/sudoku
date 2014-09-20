@@ -90,9 +90,22 @@ CGFloat BLHLSmallBoundaryRatio = 72.0;
     return button;
 }
 
+- (void)highlightButton:(UIButton *)b {
+  if (!b.highlighted) {
+    [b setHighlighted:YES];
+  }
+  UIButton* btn;
+  for (btn in gridButtons) {
+    if (btn.tag != b.tag && btn.highlighted) {
+      [btn setHighlighted:NO];
+    }
+  }
+}
+
 - (void)buttonPressed:(UIButton*)sender
 {
     UIButton *btn = (UIButton *)sender;
+  [self performSelector:@selector(highlightButton:) withObject:sender afterDelay:0.0];
     NSLog(@"Button %d was pressed", btn.tag);
 }
 

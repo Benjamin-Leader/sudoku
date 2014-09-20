@@ -7,7 +7,9 @@
 //
 
 #import "BLHLGridView.h"
+#import "BLXWNumPadView.h"
 #import "BLHLViewController.h"
+
 
 int initialGrid[9][9]={
     {7,0,0,4,2,0,0,0,9},
@@ -23,6 +25,7 @@ int initialGrid[9][9]={
 
 @interface BLHLViewController () {
     BLHLGridView* _gridView;
+  BLXWNumPadView* _numPadView;
 }
 
 @end
@@ -53,7 +56,25 @@ int initialGrid[9][9]={
             [_gridView setValueAtRow: row column: col to: initialGrid[col-1][row-1]];
         }
     }
-    
+  
+  //create numPad frame
+  CGRect numPadFrame = self.view.frame;
+  CGFloat numPadx = CGRectGetWidth(frame)*.1;
+  CGFloat numPady = CGRectGetHeight(frame)*.2 + size;
+  CGFloat numPadWidth = MIN(CGRectGetWidth(frame), CGRectGetHeight(frame))*.80;
+  CGFloat numPadHeight = MIN(CGRectGetWidth(frame), CGRectGetHeight(frame))*.80/9.0;
+  
+  CGRect myNumPadFrame = CGRectMake(numPadx, numPady, numPadWidth, numPadHeight);
+  
+  // create numpad view
+  _numPadView = [[BLXWNumPadView alloc] initWithFrame:myNumPadFrame];
+  _numPadView.backgroundColor = [UIColor blackColor];
+  [self.view addSubview:_numPadView];
+  
+  for (int col = 1; col <= 9; ++col) {
+    [_numPadView setValueAtColumn: col-1 to:col];
+  }
+  
 }
 
 - (void)didReceiveMemoryWarning

@@ -23,6 +23,7 @@
 		81095C8B19C248450077F277 /* sudokuTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81095C8A19C248450077F277 /* sudokuTests.m */; };
 		81CED56019CB82CB00360258 /* BLXWGridModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CED55F19CB82CB00360258 /* BLXWGridModel.m */; };
 		81CF8B0219C36EE2008DF4B1 /* BLHLGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CF8B0119C36EE2008DF4B1 /* BLHLGridView.m */; };
+		A422E35919CCF814004D417D /* BLXWNumPadView.m in Sources */ = {isa = PBXBuildFile; fileRef = A422E35819CCF814004D417D /* BLXWNumPadView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,8 @@
 		81CED55F19CB82CB00360258 /* BLXWGridModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLXWGridModel.m; sourceTree = "<group>"; };
 		81CF8B0019C36EE2008DF4B1 /* BLHLGridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BLHLGridView.h; path = ../BLHLGridView.h; sourceTree = "<group>"; };
 		81CF8B0119C36EE2008DF4B1 /* BLHLGridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BLHLGridView.m; path = ../BLHLGridView.m; sourceTree = "<group>"; };
+		A422E35719CCF814004D417D /* BLXWNumPadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLXWNumPadView.h; sourceTree = "<group>"; };
+		A422E35819CCF814004D417D /* BLXWNumPadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLXWNumPadView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +121,8 @@
 		81095C6519C248450077F277 /* sudoku */ = {
 			isa = PBXGroup;
 			children = (
+				A422E35719CCF814004D417D /* BLXWNumPadView.h */,
+				A422E35819CCF814004D417D /* BLXWNumPadView.m */,
 				81095C6E19C248450077F277 /* BLHLAppDelegate.h */,
 				81095C6F19C248450077F277 /* BLHLAppDelegate.m */,
 				81095C7119C248450077F277 /* Main.storyboard */,
@@ -263,6 +268,7 @@
 				81CF8B0219C36EE2008DF4B1 /* BLHLGridView.m in Sources */,
 				81095C7619C248450077F277 /* BLHLViewController.m in Sources */,
 				81095C7019C248450077F277 /* BLHLAppDelegate.m in Sources */,
+				A422E35919CCF814004D417D /* BLXWNumPadView.m in Sources */,
 				81CED56019CB82CB00360258 /* BLXWGridModel.m in Sources */,
 				81095C6C19C248450077F277 /* main.m in Sources */,
 			);

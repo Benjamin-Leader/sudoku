@@ -23,9 +23,24 @@ int cells[9][9]={
     {8,0,0,3,0,2,7,4,0}
 };
 
-- (void) generateGrid{
+- (void) generateGrid {
     
 }
 
+- (int) getValueAtRow: (int)row Column: (int)column {
+  return 1;
+}
+
+- (void) setValueAtRow: (int)row Column: (int)column to: (int)newValue {
+  
+}
+
+- (BOOL) isMutableAtRow: (int)row Column: (int)column {
+  return YES;
+}
+
+- (BOOL) isConsistentAtRow: (int)row Column: (int)column {
+  return YES;
+}
 
 @end
