@@ -49,6 +49,7 @@ int initialGrid[9][9]={
     _gridView = [[BLHLGridView alloc] initWithFrame:gridFrame];
     _gridView.backgroundColor = [UIColor blackColor];
     [self.view addSubview:_gridView];
+//    [_gridView addTarget:self action:@selector(gridCellSelected:) forUIEvent:cellSelected];
     
     // put initial values into appropriate cells
     for (int col = 1; col < 10; ++col) {
@@ -58,7 +59,6 @@ int initialGrid[9][9]={
     }
   
   //create numPad frame
-  CGRect numPadFrame = self.view.frame;
   CGFloat numPadx = CGRectGetWidth(frame)*.1;
   CGFloat numPady = CGRectGetHeight(frame)*.2 + size;
   CGFloat numPadWidth = MIN(CGRectGetWidth(frame), CGRectGetHeight(frame))*.80;
@@ -75,6 +75,11 @@ int initialGrid[9][9]={
     [_numPadView setValueAtColumn: col-1 to:col];
   }
   
+}
+
+- (void) gridCellSelected: (BLHLGridView*)sender
+{
+    
 }
 
 - (void)didReceiveMemoryWarning

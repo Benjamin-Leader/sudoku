@@ -14,4 +14,6 @@
 
 - (UIImage *)imageWithColor:(UIColor *)color;
 
+- (void) cellSelected: (UIButton*)sender;
+
 @end

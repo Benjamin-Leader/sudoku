@@ -23,23 +23,58 @@ int cells[9][9]={
     {8,0,0,3,0,2,7,4,0}
 };
 
+int initialCells[9][9]={
+    {1,0,0,1,1,0,0,0,1},
+    {0,0,1,1,0,0,0,0,1},
+    {0,1,0,1,1,0,1,0,0},
+    {1,1,0,0,0,0,1,1,0},
+    {0,1,0,0,0,1,0,0,1},
+    {0,1,0,0,1,1,1,0,0},
+    {0,0,0,1,1,0,0,0,1},
+    {1,1,0,1,0,0,1,0,0},
+    {1,0,0,1,0,1,1,1,0}
+};
+
 - (void) generateGrid {
     
 }
 
 - (int) getValueAtRow: (int)row Column: (int)column {
-  return 1;
+  return cells[row][column];
 }
 
 - (void) setValueAtRow: (int)row Column: (int)column to: (int)newValue {
-  
+  cells[row][column] = newValue;
 }
 
 - (BOOL) isMutableAtRow: (int)row Column: (int)column {
-  return YES;
+  if (initialCells[row][column] == 0) {
+    return YES;
+  } else {
+    return NO;
+  }
 }
 
-- (BOOL) isConsistentAtRow: (int)row Column: (int)column {
+- (BOOL) isConsistentAtRow: (int)row Column: (int)column for: (int)value {
+    
+    // Check values in the selected row and column
+    for (int i = 0; i < 9; ++i){
+        if ((cells[row][i] == value) || (cells[i][column] == value)) {
+            return NO;
+        }
+    }
+    int subColumn = column/3;
+    int subRow = row/3;
+    
+    // Check values in subgrid
+    for (int currentColumn = 0; currentColumn < 3; ++currentColumn) {
+        for (int currentRow = 0; currentRow < 3; ++currentRow) {
+            if (cells[currentRow + 3*subRow][currentColumn + 3*subColumn] == value) {
+                return NO;
+            }
+        }
+    }
+    
   return YES;
 }
 

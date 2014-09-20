@@ -55,6 +55,9 @@ CGFloat BLXWSmallBoundaryRatio = 44.0;
       btn.tag = column;
       
       columnLeftMargin = columnLeftMargin + buttonSize;
+        
+      [self highlightButton:numPadButtons[0]];
+      currentValue = 1;
     }
   }
   
@@ -75,15 +78,32 @@ CGFloat BLXWSmallBoundaryRatio = 44.0;
   [self addSubview:button];
   
   // create target for button
-  [button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
+  [button addTarget:self action:@selector(cellSelected:) forControlEvents:UIControlEventTouchUpInside];
   
   return button;
 }
 
-- (void)buttonPressed:(UIButton*)sender
+- (void)highlightButton:(UIButton *)b {
+    if (!b.highlighted) {
+        [b setHighlighted:YES];
+    }
+    UIButton* btn;
+    for (btn in numPadButtons) {
+        if (btn.tag != b.tag && btn.highlighted) {
+            [btn setHighlighted:NO];
+        }
+    }
+}
+
+
+- (void)cellSelected:(UIButton*)sender
 {
   UIButton *btn = (UIButton *)sender;
+  [self performSelector:@selector(highlightButton:) withObject:sender afterDelay:0.0];
+  NSString *buttonValue =[[NSString alloc]initWithFormat:@"%ld",(long)sender.tag];
+  currentValue = [buttonValue intValue];
   NSLog(@"Number Pad Button %ld was pressed", (long)btn.tag);
+  NSLog(@"Current value is %d", currentValue);
 }
 
 - (void)setValueAtColumn: (int)column to: (NSInteger)value
@@ -112,12 +132,9 @@ CGFloat BLXWSmallBoundaryRatio = 44.0;
   return image;
 }
 
-- (void) cellSelected {
-  
-}
 
 - (int) getCurrentValue {
-  return 1;
+  return currentValue;
 }
 
 @end

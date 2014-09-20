@@ -14,6 +14,6 @@
 - (int) getValueAtRow: (int)row Column: (int)column;
 - (void) setValueAtRow: (int)row Column: (int)column to: (int)newValue;
 - (BOOL) isMutableAtRow: (int)row Column: (int)column;
-- (BOOL) isConsistentAtRow: (int)row Column: (int)column;
+- (BOOL) isConsistentAtRow: (int)row Column: (int)column for: (int)value;
 
 @end

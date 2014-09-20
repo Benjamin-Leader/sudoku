@@ -11,6 +11,7 @@
 @implementation BLHLGridView
 
 NSMutableArray* gridButtons;
+UIButton* currentButton;
 
 CGFloat BLHLButtonSizeRatio = 12.0;
 CGFloat BLHLLargeBoundaryRatio = 24.0;
@@ -86,26 +87,13 @@ CGFloat BLHLSmallBoundaryRatio = 72.0;
     [self addSubview:button];
     
     // create target for button
-    [button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [button addTarget:self action:@selector(cellSelected:) forControlEvents:UIControlEventTouchUpInside];
     return button;
 }
 
-- (void)highlightButton:(UIButton *)b {
-  if (!b.highlighted) {
-    [b setHighlighted:YES];
-  }
-  UIButton* btn;
-  for (btn in gridButtons) {
-    if (btn.tag != b.tag && btn.highlighted) {
-      [btn setHighlighted:NO];
-    }
-  }
-}
-
-- (void)buttonPressed:(UIButton*)sender
+- (void)cellSelected:(UIButton*)sender
 {
     UIButton *btn = (UIButton *)sender;
-  [self performSelector:@selector(highlightButton:) withObject:sender afterDelay:0.0];
     NSLog(@"Button %d was pressed", btn.tag);
 }
 
