@@ -9,6 +9,7 @@
 #import "BLHLGridView.h"
 #import "BLXWNumPadView.h"
 #import "BLHLViewController.h"
+#import "BLXWGridModel.h"
 
 
 int initialGrid[9][9]={
@@ -24,8 +25,9 @@ int initialGrid[9][9]={
 };
 
 @interface BLHLViewController () {
-    BLHLGridView* _gridView;
+  BLHLGridView* _gridView;
   BLXWNumPadView* _numPadView;
+  BLXWGridModel* _gridModel;
 }
 
 @end
@@ -36,6 +38,11 @@ int initialGrid[9][9]={
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    
+    
+    //create grid Model
+    _gridModel = [[BLXWGridModel alloc] init];
+    
     
     //create grid frame
     CGRect frame = self.view.frame;
@@ -49,12 +56,13 @@ int initialGrid[9][9]={
     _gridView = [[BLHLGridView alloc] initWithFrame:gridFrame];
     _gridView.backgroundColor = [UIColor blackColor];
     [self.view addSubview:_gridView];
+    [_gridView setTarget:self :@selector(gridCellSelected:)];
 //    [_gridView addTarget:self action:@selector(gridCellSelected:) forUIEvent:cellSelected];
     
     // put initial values into appropriate cells
-    for (int col = 1; col < 10; ++col) {
-        for (int row = 1; row < 10; ++row) {
-            [_gridView setValueAtRow: row column: col to: initialGrid[col-1][row-1]];
+    for (int col = 0; col < 9; ++col) {
+        for (int row = 0; row < 9; ++row) {
+            [_gridView setValueAtRow: row column: col to: initialGrid[col][row]];
         }
     }
   
@@ -77,9 +85,20 @@ int initialGrid[9][9]={
   
 }
 
-- (void) gridCellSelected: (BLHLGridView*)sender
+
+- (void) gridCellSelected: (NSNumber*)tag
 {
+    NSLog(@"gridCellSelected, %@", tag);
+    int value = [_numPadView getCurrentValue];
+    int tagInt = [tag integerValue];
+    int column = tagInt/10-1;
+    int row = tagInt%10-1;
+    NSLog(@"Row is %d and column is %d", row, column);
     
+    if ([_gridModel isConsistentAtRow: row Column: column for: value] && [_gridModel isMutableAtRow:row Column:column]){
+        [_gridModel setValueAtRow:row Column:column to:value];
+        [_gridView setValueAtRow:row column:column to:value];
+    }
 }
 
 - (void)didReceiveMemoryWarning

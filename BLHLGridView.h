@@ -16,4 +16,7 @@
 
 - (void) cellSelected: (UIButton*)sender;
 
+- (void)setTarget: (id)target : (SEL)action;
+
+
 @end

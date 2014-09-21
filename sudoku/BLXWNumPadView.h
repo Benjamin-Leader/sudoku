@@ -11,5 +11,6 @@
 @interface BLXWNumPadView: UIView
 
 - (void)setValueAtColumn: (int)column to: (NSInteger)value;
+- (int) getCurrentValue;
 
 @end

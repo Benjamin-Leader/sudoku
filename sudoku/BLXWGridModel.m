@@ -40,11 +40,14 @@ int initialCells[9][9]={
 }
 
 - (int) getValueAtRow: (int)row Column: (int)column {
+
   return cells[row][column];
 }
 
 - (void) setValueAtRow: (int)row Column: (int)column to: (int)newValue {
+
   cells[row][column] = newValue;
+    NSLog(@"placing %d in row %d column %d", newValue, row, column);
 }
 
 - (BOOL) isMutableAtRow: (int)row Column: (int)column {
@@ -59,21 +62,26 @@ int initialCells[9][9]={
     
     // Check values in the selected row and column
     for (int i = 0; i < 9; ++i){
-        if ((cells[row][i] == value) || (cells[i][column] == value)) {
+        if ((cells[column][i] == value) || (cells[i][row] == value)) {
             return NO;
         }
+        NSLog(@"number in the row box: %d", cells[column][i]);
+//        NSLog(@"number in the column box: %d", cells[i][column]);
+        NSLog(@"");
     }
-    int subColumn = column/3;
-    int subRow = row/3;
+    int subRow = column/3;
+    int subColumn = row/3;
     
     // Check values in subgrid
-    for (int currentColumn = 0; currentColumn < 3; ++currentColumn) {
-        for (int currentRow = 0; currentRow < 3; ++currentRow) {
+    for (int currentRow = 0; currentRow < 3; ++currentRow) {
+        for (int currentColumn = 0; currentColumn < 3; ++currentColumn) {
             if (cells[currentRow + 3*subRow][currentColumn + 3*subColumn] == value) {
                 return NO;
             }
         }
     }
+    NSLog(@"Grid model -- Row is %d and column is %d", row, column);
+    NSLog(@"");
     
   return YES;
 }

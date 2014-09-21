@@ -133,7 +133,8 @@ CGFloat BLXWSmallBoundaryRatio = 44.0;
 }
 
 
-- (int) getCurrentValue {
+- (int) getCurrentValue
+{
   return currentValue;
 }
 

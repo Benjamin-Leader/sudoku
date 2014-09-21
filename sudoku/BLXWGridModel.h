@@ -10,6 +10,8 @@
 
 @interface BLXWGridModel : NSObject
 
+@property (nonatomic, retain) NSNumber* currentButtonTag;
+
 - (void) generateGrid;
 - (int) getValueAtRow: (int)row Column: (int)column;
 - (void) setValueAtRow: (int)row Column: (int)column to: (int)newValue;

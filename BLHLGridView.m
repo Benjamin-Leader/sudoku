@@ -10,6 +10,8 @@
 
 @implementation BLHLGridView
 
+id _target;
+SEL _action;
 NSMutableArray* gridButtons;
 UIButton* currentButton;
 
@@ -21,6 +23,7 @@ CGFloat BLHLSmallBoundaryRatio = 72.0;
 {
     self = [super initWithFrame:frame];
     if (self) {
+        
         
         // Create array to hold cells
         gridButtons = [NSMutableArray array];
@@ -61,9 +64,6 @@ CGFloat BLHLSmallBoundaryRatio = 72.0;
                 [gridButtons addObject:(UIButton*) btn];
                 btn.tag = column*10+row;
                 
-                NSLog(@"tag: %d", btn.tag);
-                
-                
                 rowTopMargin = rowTopMargin + buttonSize;
             }
             
@@ -95,6 +95,8 @@ CGFloat BLHLSmallBoundaryRatio = 72.0;
 {
     UIButton *btn = (UIButton *)sender;
     NSLog(@"Button %d was pressed", btn.tag);
+    NSNumber* currentButtonTag = [NSNumber numberWithInteger:btn.tag];
+    [_target performSelector:_action withObject:currentButtonTag];
 }
 
 
@@ -104,7 +106,7 @@ CGFloat BLHLSmallBoundaryRatio = 72.0;
     
     // Insert new number into row if there is an appropriate value
     if (value > 0){
-        [gridButtons[(column-1)*9+(row-1)] setTitle:(newVal) forState:(UIControlState)UIControlStateNormal];
+        [gridButtons[(column)*9+(row)] setTitle:(newVal) forState:(UIControlState)UIControlStateNormal];
     }
 }
 
@@ -123,5 +125,12 @@ CGFloat BLHLSmallBoundaryRatio = 72.0;
     
     return image;
 }
+
+-(void)setTarget: (id)target : (SEL)action
+{
+    _target = target;
+    _action = action;
+}
+
 
 @end
