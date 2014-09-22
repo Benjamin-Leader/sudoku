@@ -46,12 +46,13 @@ int initialCells[9][9]={
 
 - (void) setValueAtRow: (int)row Column: (int)column to: (int)newValue {
 
-  cells[row][column] = newValue;
-    NSLog(@"placing %d in row %d column %d", newValue, row, column);
+  cells[column][row] = newValue;
+  NSLog(@"placing %d in row %d column %d", newValue, row, column);
+  NSLog(@"after editing, the cell's value is: %d", cells[column][row]);
 }
 
 - (BOOL) isMutableAtRow: (int)row Column: (int)column {
-  if (initialCells[row][column] == 0) {
+  if (initialCells[column][row] == 0) {
     return YES;
   } else {
     return NO;
@@ -62,13 +63,22 @@ int initialCells[9][9]={
     
     // Check values in the selected row and column
     for (int i = 0; i < 9; ++i){
-        if ((cells[column][i] == value) || (cells[i][row] == value)) {
+        if (cells[i][row] == value) {
             return NO;
         }
-        NSLog(@"number in the row box: %d", cells[column][i]);
-//        NSLog(@"number in the column box: %d", cells[i][column]);
-        NSLog(@"");
+        // NSLog(@"number in the column box: %d", cells[column][i]);
+        NSLog(@"number in the row box: %d", cells[i][row]);
     }
+  NSLog(@"");
+  
+  // Check values in the selected row and column
+  for (int i = 0; i < 9; ++i){
+    if (cells[column][i] == value) {
+      return NO;
+    }
+    NSLog(@"number in the column box: %d", cells[column][i]);
+  }
+  
     int subRow = column/3;
     int subColumn = row/3;
     
@@ -76,12 +86,12 @@ int initialCells[9][9]={
     for (int currentRow = 0; currentRow < 3; ++currentRow) {
         for (int currentColumn = 0; currentColumn < 3; ++currentColumn) {
             if (cells[currentRow + 3*subRow][currentColumn + 3*subColumn] == value) {
+              NSLog(@"number in the block: %d", cells[currentRow + 3*subRow][currentColumn + 3*subColumn]);
                 return NO;
             }
+          NSLog(@"number in the block: %d", cells[currentRow + 3*subRow][currentColumn + 3*subColumn]);
         }
     }
-    NSLog(@"Grid model -- Row is %d and column is %d", row, column);
-    NSLog(@"");
     
   return YES;
 }

@@ -94,7 +94,9 @@ int initialGrid[9][9]={
     int column = tagInt/10-1;
     int row = tagInt%10-1;
     NSLog(@"Row is %d and column is %d", row, column);
-    
+  
+    NSLog(@"\n");
+  
     if ([_gridModel isConsistentAtRow: row Column: column for: value] && [_gridModel isMutableAtRow:row Column:column]){
         [_gridModel setValueAtRow:row Column:column to:value];
         [_gridView setValueAtRow:row column:column to:value];
