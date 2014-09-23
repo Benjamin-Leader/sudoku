@@ -41,14 +41,14 @@ int initialCells[9][9]={
 
 - (int) getValueAtRow: (int)row Column: (int)column {
 
-  return cells[row][column];
+  return cells[column][row];
 }
 
 - (void) setValueAtRow: (int)row Column: (int)column to: (int)newValue {
 
   cells[column][row] = newValue;
-  NSLog(@"placing %d in row %d column %d", newValue, row, column);
-  NSLog(@"after editing, the cell's value is: %d", cells[column][row]);
+  NSAssert(newValue < 10, @"Invalid: input is too large");
+  NSAssert(newValue > 0, @"Invalid: input is too small");
 }
 
 - (BOOL) isMutableAtRow: (int)row Column: (int)column {
@@ -59,7 +59,11 @@ int initialCells[9][9]={
   }
 }
 
-- (BOOL) isConsistentAtRow: (int)row Column: (int)column for: (int)value {
+- (BOOL) isConsistentAtRow: (int)row Column: (int)column for: (int)value
+{
+    
+    NSAssert(value < 10, @"Invalid: input is too large");
+    NSAssert(value > 0, @"Invalid: input is too small");
     
     // Check values in the selected row and column
     for (int i = 0; i < 9; ++i){
@@ -67,16 +71,13 @@ int initialCells[9][9]={
             return NO;
         }
         // NSLog(@"number in the column box: %d", cells[column][i]);
-        NSLog(@"number in the row box: %d", cells[i][row]);
     }
-  NSLog(@"");
   
   // Check values in the selected row and column
   for (int i = 0; i < 9; ++i){
     if (cells[column][i] == value) {
       return NO;
     }
-    NSLog(@"number in the column box: %d", cells[column][i]);
   }
   
     int subRow = column/3;
@@ -86,10 +87,8 @@ int initialCells[9][9]={
     for (int currentRow = 0; currentRow < 3; ++currentRow) {
         for (int currentColumn = 0; currentColumn < 3; ++currentColumn) {
             if (cells[currentRow + 3*subRow][currentColumn + 3*subColumn] == value) {
-              NSLog(@"number in the block: %d", cells[currentRow + 3*subRow][currentColumn + 3*subColumn]);
                 return NO;
             }
-          NSLog(@"number in the block: %d", cells[currentRow + 3*subRow][currentColumn + 3*subColumn]);
         }
     }
     

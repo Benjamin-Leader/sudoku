@@ -76,7 +76,7 @@ CGFloat BLHLSmallBoundaryRatio = 72.0;
 
 - (UIButton*)makeButtonWithSize:(CGFloat)size withXCoord: (CGFloat)x andYCoord: (CGFloat)y
 {
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIButton *button;
 
     // initialize button with default cell properties
     CGRect buttonFrame = CGRectMake(x, y, size, size);
@@ -104,9 +104,20 @@ CGFloat BLHLSmallBoundaryRatio = 72.0;
 {
     NSString *newVal = [NSString stringWithFormat:@"%d", value];
     
-    // Insert new number into row if there is an appropriate value
+    // Insert new number into cell if there is an appropriate value
     if (value > 0){
         [gridButtons[(column)*9+(row)] setTitle:(newVal) forState:(UIControlState)UIControlStateNormal];
+    }
+}
+
+- (void)setInitialValueAtRow: (int)row column: (int)column to: (NSInteger)value
+{
+    NSString *newVal = [NSString stringWithFormat:@"%d", value];
+    
+    // Insert new number into cell if there is an appropriate value
+    if (value > 0){
+        [gridButtons[(column)*9+(row)] setTitle:(newVal) forState:(UIControlState)UIControlStateNormal];
+        [gridButtons[(column)*9+(row)] setTitleColor:[UIColor blackColor] forState:(UIControlState)UIControlStateNormal];
     }
 }
 

@@ -66,7 +66,7 @@ CGFloat BLXWSmallBoundaryRatio = 44.0;
 
 - (UIButton*)makeButtonWithSize:(CGFloat)size withXCoord: (CGFloat)x andYCoord: (CGFloat)y
 {
-  UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+  UIButton *button;
   
   // initialize button with default cell properties
   CGRect buttonFrame = CGRectMake(x, y, size, size);

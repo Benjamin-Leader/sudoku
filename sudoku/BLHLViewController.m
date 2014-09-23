@@ -12,18 +12,6 @@
 #import "BLXWGridModel.h"
 
 
-int initialGrid[9][9]={
-    {7,0,0,4,2,0,0,0,9},
-    {0,0,9,5,0,0,0,0,4},
-    {0,2,0,6,9,0,5,0,0},
-    {6,5,0,0,0,0,4,3,0},
-    {0,8,0,0,0,6,0,0,7},
-    {0,1,0,0,4,5,6,0,0},
-    {0,0,0,8,6,0,0,0,2},
-    {3,4,0,9,0,0,1,0,0},
-    {8,0,0,3,0,2,7,4,0}
-};
-
 @interface BLHLViewController () {
   BLHLGridView* _gridView;
   BLXWNumPadView* _numPadView;
@@ -57,12 +45,11 @@ int initialGrid[9][9]={
     _gridView.backgroundColor = [UIColor blackColor];
     [self.view addSubview:_gridView];
     [_gridView setTarget:self :@selector(gridCellSelected:)];
-//    [_gridView addTarget:self action:@selector(gridCellSelected:) forUIEvent:cellSelected];
     
     // put initial values into appropriate cells
     for (int col = 0; col < 9; ++col) {
         for (int row = 0; row < 9; ++row) {
-            [_gridView setValueAtRow: row column: col to: initialGrid[col][row]];
+            [_gridView setInitialValueAtRow: row column: col to: [_gridModel getValueAtRow:row Column:col]];
         }
     }
   
