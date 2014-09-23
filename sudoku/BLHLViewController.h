@@ -10,4 +10,7 @@
 
 @interface BLHLViewController : UIViewController
 
+- (void) gridCellSelected: (BLHLGridView*) tag;
+
+
 @end

@@ -11,7 +11,10 @@
 @interface BLHLGridView : UIView
 
 - (void) setValueAtRow: (int)row column: (int)column to: (NSInteger)value;
-
+- (void)setInitialValueAtRow: (int)row column: (int)column to: (NSInteger)value;
 - (UIImage *)imageWithColor:(UIColor *)color;
+- (void) cellSelected: (UIButton*)sender;
+- (void)setTarget: (id)target : (SEL)action;
+
 
 @end

@@ -10,7 +10,10 @@
 
 @implementation BLHLGridView
 
+id _target;
+SEL _action;
 NSMutableArray* gridButtons;
+UIButton* currentButton;
 
 CGFloat BLHLButtonSizeRatio = 12.0;
 CGFloat BLHLLargeBoundaryRatio = 24.0;
@@ -20,6 +23,7 @@ CGFloat BLHLSmallBoundaryRatio = 72.0;
 {
     self = [super initWithFrame:frame];
     if (self) {
+        
         
         // Create array to hold cells
         gridButtons = [NSMutableArray array];
@@ -60,9 +64,6 @@ CGFloat BLHLSmallBoundaryRatio = 72.0;
                 [gridButtons addObject:(UIButton*) btn];
                 btn.tag = column*10+row;
                 
-                NSLog(@"tag: %d", btn.tag);
-                
-                
                 rowTopMargin = rowTopMargin + buttonSize;
             }
             
@@ -75,7 +76,7 @@ CGFloat BLHLSmallBoundaryRatio = 72.0;
 
 - (UIButton*)makeButtonWithSize:(CGFloat)size withXCoord: (CGFloat)x andYCoord: (CGFloat)y
 {
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIButton *button;
 
     // initialize button with default cell properties
     CGRect buttonFrame = CGRectMake(x, y, size, size);
@@ -86,14 +87,16 @@ CGFloat BLHLSmallBoundaryRatio = 72.0;
     [self addSubview:button];
     
     // create target for button
-    [button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [button addTarget:self action:@selector(cellSelected:) forControlEvents:UIControlEventTouchUpInside];
     return button;
 }
 
-- (void)buttonPressed:(UIButton*)sender
+- (void)cellSelected:(UIButton*)sender
 {
     UIButton *btn = (UIButton *)sender;
     NSLog(@"Button %d was pressed", btn.tag);
+    NSNumber* currentButtonTag = [NSNumber numberWithInteger:btn.tag];
+    [_target performSelector:_action withObject:currentButtonTag];
 }
 
 
@@ -101,9 +104,20 @@ CGFloat BLHLSmallBoundaryRatio = 72.0;
 {
     NSString *newVal = [NSString stringWithFormat:@"%d", value];
     
-    // Insert new number into row if there is an appropriate value
+    // Insert new number into cell if there is an appropriate value
     if (value > 0){
-        [gridButtons[(column-1)*9+(row-1)] setTitle:(newVal) forState:(UIControlState)UIControlStateNormal];
+        [gridButtons[(column)*9+(row)] setTitle:(newVal) forState:(UIControlState)UIControlStateNormal];
+    }
+}
+
+- (void)setInitialValueAtRow: (int)row column: (int)column to: (NSInteger)value
+{
+    NSString *newVal = [NSString stringWithFormat:@"%d", value];
+    
+    // Insert new number into cell if there is an appropriate value
+    if (value > 0){
+        [gridButtons[(column)*9+(row)] setTitle:(newVal) forState:(UIControlState)UIControlStateNormal];
+        [gridButtons[(column)*9+(row)] setTitleColor:[UIColor blackColor] forState:(UIControlState)UIControlStateNormal];
     }
 }
 
@@ -122,5 +136,12 @@ CGFloat BLHLSmallBoundaryRatio = 72.0;
     
     return image;
 }
+
+-(void)setTarget: (id)target : (SEL)action
+{
+    _target = target;
+    _action = action;
+}
+
 
 @end
