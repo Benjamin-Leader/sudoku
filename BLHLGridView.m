@@ -107,34 +107,36 @@ CGFloat BLHLSmallBoundaryRatio = 72.0;
     // Insert new number into cell if there is an appropriate value
     if (value > 0){
         [gridButtons[(column)*9+(row)] setTitle:(newVal) forState:(UIControlState)UIControlStateNormal];
+    } else {
+      [gridButtons[(column)*9+(row)] setTitle:(@"") forState:(UIControlState)UIControlStateNormal];
     }
 }
 
 - (void)setInitialValueAtRow: (int)row column: (int)column to: (NSInteger)value
 {
-    NSString *newVal = [NSString stringWithFormat:@"%d", value];
+  NSString *newVal = [NSString stringWithFormat:@"%d", value];
     
-    // Insert new number into cell if there is an appropriate value
-    if (value > 0){
-        [gridButtons[(column)*9+(row)] setTitle:(newVal) forState:(UIControlState)UIControlStateNormal];
-        [gridButtons[(column)*9+(row)] setTitleColor:[UIColor blackColor] forState:(UIControlState)UIControlStateNormal];
-    }
+  // Insert new number into cell if there is an appropriate value
+  if (value > 0){
+    [gridButtons[(column)*9+(row)] setTitle:(newVal) forState:(UIControlState)UIControlStateNormal];
+    [gridButtons[(column)*9+(row)] setTitleColor:[UIColor blackColor] forState:(UIControlState)UIControlStateNormal];
+  }
 }
 
 // used to create highlighted background for button
 - (UIImage *)imageWithColor:(UIColor *)color
 {
-    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
-    UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
+  CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+  UIGraphicsBeginImageContext(rect.size);
+  CGContextRef context = UIGraphicsGetCurrentContext();
     
-    CGContextSetFillColorWithColor(context, [color CGColor]);
-    CGContextFillRect(context, rect);
+  CGContextSetFillColorWithColor(context, [color CGColor]);
+  CGContextFillRect(context, rect);
     
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
+  UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+  UIGraphicsEndImageContext();
     
-    return image;
+  return image;
 }
 
 -(void)setTarget: (id)target : (SEL)action

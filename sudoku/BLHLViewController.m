@@ -25,31 +25,7 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  [self startNewGame];
   
-  
-}
-
-
-- (void) gridCellSelected: (NSNumber*)tag
-{
-  NSLog(@"gridCellSelected, %@", tag);
-  int value = [_numPadView getCurrentValue];
-  int tagInt = [tag integerValue];
-  int column = tagInt/10-1;
-  int row = tagInt%10-1;
-  NSLog(@"Row is %d and column is %d", row, column);
-  
-  NSLog(@"\n");
-  
-  if ([_gridModel isConsistentAtRow: row Column: column for: value] && [_gridModel isMutableAtRow:row Column:column]){
-    [_gridModel setValueAtRow:row Column:column to:value];
-    [_gridView setValueAtRow:row column:column to:value];
-  }
-}
-
-- (void)startNewGame
-{
   //create grid Model
   _gridModel = [[BLXWGridModel alloc] init];
   [_gridModel generateGrid];
@@ -106,6 +82,7 @@
   [newGameButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
   [newGameButton setTitle:@"New Game" forState:UIControlStateNormal];
   [self.view addSubview:newGameButton];
+  [newGameButton addTarget:self action:@selector(startNewGame:) forControlEvents:UIControlEventTouchUpInside];
   
   // create new game button
   CGFloat restartx = CGRectGetWidth(frame)*.2 + newGamePadWidth;
@@ -120,8 +97,52 @@
   [restartButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
   [restartButton setTitle:@"Restart" forState:UIControlStateNormal];
   [self.view addSubview:restartButton];
-  
+  [restartButton addTarget:self action:@selector(clearGrid:) forControlEvents:UIControlEventTouchUpInside];
 }
+
+
+- (void) gridCellSelected: (NSNumber*)tag
+{
+  NSLog(@"gridCellSelected, %@", tag);
+  int value = [_numPadView getCurrentValue];
+  int tagInt = [tag integerValue];
+  int column = tagInt/10-1;
+  int row = tagInt%10-1;
+  NSLog(@"Row is %d and column is %d", row, column);
+  
+  NSLog(@"\n");
+  
+  if ([_gridModel isConsistentAtRow: row Column: column for: value] && [_gridModel isMutableAtRow:row Column:column]){
+    [_gridModel setValueAtRow:row Column:column to:value];
+    [_gridView setValueAtRow:row column:column to:value];
+  }
+}
+
+- (void)startNewGame:(UIButton*)sender
+{
+  [_gridModel generateGrid];
+  
+  // put initial values into appropriate cells
+  for (int col = 0; col < 9; ++col) {
+    for (int row = 0; row < 9; ++row) {
+      [_gridView setInitialValueAtRow: row column: col to: [_gridModel getValueAtRow:row Column:col]];
+    }
+  }
+}
+
+- (void)clearGrid:(UIButton*)sender
+{
+  for (int col = 0; col < 9; ++col) {
+    for (int row = 0; row < 9; ++row) {
+      [_gridView setInitialValueAtRow: row column: col to: 0];
+      
+      if ([_gridModel isMutableAtRow:row Column:col]) {
+        [_gridModel setValueAtRow:row Column:col to:0];
+      }
+    }
+  }
+}
+
 
 - (void)didReceiveMemoryWarning
 {

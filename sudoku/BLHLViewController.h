@@ -12,5 +12,8 @@
 
 - (void) gridCellSelected: (BLHLGridView*) tag;
 
-- (void) startNewGame;
+- (void) startNewGame:(UIButton*)sender;
+
+- (void)clearGrid:(UIButton*)sender;
+
 @end
