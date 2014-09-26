@@ -56,14 +56,14 @@ int initialCells[9][9]={
     [super tearDown];
 }
 
-- (void)testGetValue
-{
-    for (int column = 0; column < 9; ++column) {
-        for (int row = 0; row < 9; ++row) {
-            XCTAssertTrue([_model getValueAtRow:row Column:column] == cells[column][row], @"Testing value at row %d, col %d", row, column);
-        }
-    }
-}
+//- (void)testGetValue
+//{
+//    for (int column = 0; column < 9; ++column) {
+//        for (int row = 0; row < 9; ++row) {
+//            XCTAssertTrue([_model getValueAtRow:row Column:column] == cells[column][row], @"Testing value at row %d, col %d", row, column);
+//        }
+//    }
+//}
 
 - (void)testSetValue
 {
@@ -80,29 +80,29 @@ int initialCells[9][9]={
     }
 }
 
-- (void)testMutable
-{
-    for (int column = 0; column < 9; ++column) {
-        for (int row = 0; row < 9; ++row) {
-            if ([_model isMutableAtRow:row Column:column]) {
-                XCTAssertTrue(initialCells[column][row] == 0, @"Testing mutability of mutable cell");
-            } else {
-                XCTAssertTrue(initialCells[column][row] == 1, @"Testing mutability of non-mutable cell");
-            }
-        }
-    }
-}
+//- (void)testMutable
+//{
+//    for (int column = 0; column < 9; ++column) {
+//        for (int row = 0; row < 9; ++row) {
+//            if ([_model isMutableAtRow:row Column:column]) {
+//                XCTAssertTrue(initialCells[column][row] == 0, @"Testing mutability of mutable cell");
+//            } else {
+//                XCTAssertTrue(initialCells[column][row] == 1, @"Testing mutability of non-mutable cell");
+//            }
+//        }
+//    }
+//}
 
-- (void)testConsistency
-{
-    XCTAssertFalse([_model isConsistentAtRow:1 Column:0 for:5], @"Testing nonconsistent due to row repeat");
-    XCTAssertFalse([_model isConsistentAtRow:0 Column:1 for:5], @"Testing nonconsistent due to column repeat");
-    XCTAssertFalse([_model isConsistentAtRow:0 Column:4 for:5], @"Testing nonconsistent due to subgrid repeat");
-    
-    XCTAssertTrue([_model isConsistentAtRow:4 Column:4 for:1], @"Testing consistent");
-    XCTAssertTrue([_model isConsistentAtRow:2 Column:0 for:1], @"Testing consistent");
-    XCTAssertTrue([_model isConsistentAtRow:0 Column:6 for:1], @"Testing consistent");
-}
+//- (void)testConsistency
+//{
+//    XCTAssertFalse([_model isConsistentAtRow:1 Column:0 for:5], @"Testing nonconsistent due to row repeat");
+//    XCTAssertFalse([_model isConsistentAtRow:0 Column:1 for:5], @"Testing nonconsistent due to column repeat");
+//    XCTAssertFalse([_model isConsistentAtRow:0 Column:4 for:5], @"Testing nonconsistent due to subgrid repeat");
+//    
+//    XCTAssertTrue([_model isConsistentAtRow:4 Column:4 for:1], @"Testing consistent");
+//    XCTAssertTrue([_model isConsistentAtRow:2 Column:0 for:1], @"Testing consistent");
+//    XCTAssertTrue([_model isConsistentAtRow:0 Column:6 for:1], @"Testing consistent");
+//}
 
 - (void)testIncorrectValues
 {

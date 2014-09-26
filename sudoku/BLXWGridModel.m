@@ -81,7 +81,7 @@ int initialCells[9][9]={
 
   cells[column][row] = newValue;
   NSAssert(newValue < 10, @"Invalid: input is too large");
-  NSAssert(newValue > 0, @"Invalid: input is too small");
+  NSAssert(newValue >= 0, @"Invalid: input is too small");
 }
 
 - (BOOL) isMutableAtRow: (int)row Column: (int)column {

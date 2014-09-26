@@ -84,7 +84,7 @@
   [self.view addSubview:newGameButton];
   [newGameButton addTarget:self action:@selector(startNewGame:) forControlEvents:UIControlEventTouchUpInside];
   
-  // create new game button
+  // create restart button
   CGFloat restartx = CGRectGetWidth(frame)*.2 + newGamePadWidth;
   CGFloat restarty = CGRectGetHeight(frame)*.15 + size + numPadHeight;
   CGFloat restartWidth = MIN(CGRectGetWidth(frame), CGRectGetHeight(frame))*.30;
@@ -125,6 +125,7 @@
   // put initial values into appropriate cells
   for (int col = 0; col < 9; ++col) {
     for (int row = 0; row < 9; ++row) {
+      [_gridView setValueAtRow:row column:col to:0];
       [_gridView setInitialValueAtRow: row column: col to: [_gridModel getValueAtRow:row Column:col]];
     }
   }
@@ -134,10 +135,12 @@
 {
   for (int col = 0; col < 9; ++col) {
     for (int row = 0; row < 9; ++row) {
-      [_gridView setInitialValueAtRow: row column: col to: 0];
+      //[_gridView setValueAtRow: row column: col to: 0];
       
       if ([_gridModel isMutableAtRow:row Column:col]) {
+        //NSLog(@"grid at row: %d and col: %d is mutable, and is: %d",row, col, [_gridModel getValueAtRow:row Column:col] );
         [_gridModel setValueAtRow:row Column:col to:0];
+        [_gridView setValueAtRow: row column: col to: 0];
       }
     }
   }
