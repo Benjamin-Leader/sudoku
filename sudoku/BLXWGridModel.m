@@ -36,7 +36,40 @@ int initialCells[9][9]={
 };
 
 - (void) generateGrid {
+  
+  NSString* file;
+  
+  if ((arc4random() % 2) == 1) {
+    file = @"grid1";
+  } else {
+    file = @"grid2";
+  }
+  
+  NSString* path = [[NSBundle mainBundle] pathForResource:file ofType:@"txt"];
+  NSError* error;
+  
+  NSString* readString =[[NSString alloc] initWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+  
+  NSArray* possibleGrids = [readString componentsSeparatedByString:@"\n"];
+  
+  NSUInteger numberOfGrids = [possibleGrids count];
+  
+  NSInteger gridIndex = arc4random() % numberOfGrids;
+  
+  NSString* gridString = possibleGrids[gridIndex];
+  
+  for (int cell = 0; cell < 81; ++cell ) {
+    NSString* oneCharSubstring = [gridString substringWithRange:NSMakeRange(cell, 1)];
     
+    
+    if ([oneCharSubstring isEqual: @"."]) {
+      cells[cell%9][cell/9] = 0;
+      initialCells[cell%9][cell/9] = 0;
+    } else {
+      cells[cell%9][cell/9] = [[gridString substringWithRange:NSMakeRange(cell, 1)] integerValue];
+      initialCells[cell%9][cell/9] = 1;
+    }
+  }
 }
 
 - (int) getValueAtRow: (int)row Column: (int)column {

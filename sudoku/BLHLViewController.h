@@ -12,5 +12,5 @@
 
 - (void) gridCellSelected: (BLHLGridView*) tag;
 
-
+- (void) startNewGame;
 @end
