@@ -70,8 +70,8 @@
   }
   
   // create new game button
-  CGFloat newGamePadx = CGRectGetWidth(frame)*.2;
-  CGFloat newGamePady = CGRectGetHeight(frame)*.15 + size + numPadHeight;
+  CGFloat newGamePadx = CGRectGetWidth(frame)*.18;
+  CGFloat newGamePady = CGRectGetHeight(frame)*.18 + size + numPadHeight;
   CGFloat newGamePadWidth = MIN(CGRectGetWidth(frame), CGRectGetHeight(frame))*.30;
   CGFloat newGamePadHeight = MIN(CGRectGetWidth(frame), CGRectGetHeight(frame))*.80/9.0;
   
@@ -85,8 +85,8 @@
   [newGameButton addTarget:self action:@selector(startNewGame:) forControlEvents:UIControlEventTouchUpInside];
   
   // create restart button
-  CGFloat restartx = CGRectGetWidth(frame)*.2 + newGamePadWidth;
-  CGFloat restarty = CGRectGetHeight(frame)*.15 + size + numPadHeight;
+  CGFloat restartx = CGRectGetWidth(frame)*.22 + newGamePadWidth;
+  CGFloat restarty = CGRectGetHeight(frame)*.18 + size + numPadHeight;
   CGFloat restartWidth = MIN(CGRectGetWidth(frame), CGRectGetHeight(frame))*.30;
   CGFloat restartHeight = MIN(CGRectGetWidth(frame), CGRectGetHeight(frame))*.80/9.0;
   
