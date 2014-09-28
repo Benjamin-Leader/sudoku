@@ -26,6 +26,8 @@
 {
   [super viewDidLoad];
   
+  self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"ipad-wallpaper4.png"]];
+  
   //create grid Model
   _gridModel = [[BLXWGridModel alloc] init];
   [_gridModel generateGrid];
@@ -78,9 +80,12 @@
   CGRect newGameFrame = CGRectMake(newGamePadx, newGamePady, newGamePadWidth, newGamePadHeight);
   
   UIButton* newGameButton = [[UIButton alloc] initWithFrame:newGameFrame];
-  newGameButton.backgroundColor = [UIColor greenColor];
-  [newGameButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+  [newGameButton setBackgroundImage:[UIImage imageNamed:@"rainbow1.png"] forState:UIControlStateNormal];
+  [newGameButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
   [newGameButton setTitle:@"New Game" forState:UIControlStateNormal];
+  [newGameButton setTitleShadowColor:[UIColor grayColor] forState:UIControlStateNormal];
+  newGameButton.showsTouchWhenHighlighted = YES;
+  [newGameButton setBackgroundImage:[UIImage imageNamed:@"rainbow1H.png"] forState:UIControlStateHighlighted];
   [self.view addSubview:newGameButton];
   [newGameButton addTarget:self action:@selector(startNewGame:) forControlEvents:UIControlEventTouchUpInside];
   
@@ -93,9 +98,12 @@
   CGRect restartFrame = CGRectMake(restartx, restarty, restartWidth, restartHeight);
   
   UIButton* restartButton = [[UIButton alloc] initWithFrame:restartFrame];
-  restartButton.backgroundColor = [UIColor redColor];
-  [restartButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+  [restartButton setBackgroundImage:[UIImage imageNamed:@"rainbow2.png"] forState:UIControlStateNormal];
+  [restartButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
   [restartButton setTitle:@"Restart" forState:UIControlStateNormal];
+  [restartButton setTitleShadowColor:[UIColor grayColor] forState:UIControlStateNormal];
+  restartButton.showsTouchWhenHighlighted = YES;
+  [restartButton setBackgroundImage:[UIImage imageNamed:@"rainbow2H.png"] forState:UIControlStateHighlighted];
   [self.view addSubview:restartButton];
   [restartButton addTarget:self action:@selector(clearGrid:) forControlEvents:UIControlEventTouchUpInside];
 }
@@ -103,14 +111,10 @@
 
 - (void) gridCellSelected: (NSNumber*)tag
 {
-  NSLog(@"gridCellSelected, %@", tag);
   int value = [_numPadView getCurrentValue];
   int tagInt = [tag integerValue];
   int column = tagInt/10-1;
   int row = tagInt%10-1;
-  NSLog(@"Row is %d and column is %d", row, column);
-  
-  NSLog(@"\n");
   
   if ([_gridModel isConsistentAtRow: row Column: column for: value] && [_gridModel isMutableAtRow:row Column:column]){
     [_gridModel setValueAtRow:row Column:column to:value];
@@ -135,10 +139,8 @@
 {
   for (int col = 0; col < 9; ++col) {
     for (int row = 0; row < 9; ++row) {
-      //[_gridView setValueAtRow: row column: col to: 0];
       
       if ([_gridModel isMutableAtRow:row Column:col]) {
-        //NSLog(@"grid at row: %d and col: %d is mutable, and is: %d",row, col, [_gridModel getValueAtRow:row Column:col] );
         [_gridModel setValueAtRow:row Column:col to:0];
         [_gridView setValueAtRow: row column: col to: 0];
       }
@@ -152,6 +154,7 @@
   [super didReceiveMemoryWarning];
 }
 
-
+- (BOOL)prefersStatusBarHidden {
+  return YES; }
 
 @end

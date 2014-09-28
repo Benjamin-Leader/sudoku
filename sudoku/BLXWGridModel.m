@@ -103,7 +103,6 @@ int initialCells[9][9]={
         if (cells[i][row] == value) {
             return NO;
         }
-        // NSLog(@"number in the column box: %d", cells[column][i]);
     }
   
   // Check values in the selected row and column

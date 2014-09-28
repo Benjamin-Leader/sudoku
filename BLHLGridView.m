@@ -94,7 +94,6 @@ CGFloat BLHLSmallBoundaryRatio = 72.0;
 - (void)cellSelected:(UIButton*)sender
 {
     UIButton *btn = (UIButton *)sender;
-    NSLog(@"Button %d was pressed", btn.tag);
     NSNumber* currentButtonTag = [NSNumber numberWithInteger:btn.tag];
     [_target performSelector:_action withObject:currentButtonTag];
 }
@@ -106,9 +105,10 @@ CGFloat BLHLSmallBoundaryRatio = 72.0;
     
     // Insert new number into cell if there is an appropriate value
     if (value > 0){
-        [gridButtons[(column)*9+(row)] setTitle:(newVal) forState:(UIControlState)UIControlStateNormal];
+      [gridButtons[(column)*9+(row)] setTitle:(newVal) forState:(UIControlState)UIControlStateNormal];
     } else {
       [gridButtons[(column)*9+(row)] setTitle:(@"") forState:(UIControlState)UIControlStateNormal];
+      [gridButtons[(column)*9+(row)] setTitleColor:[UIColor blueColor] forState:(UIControlState)UIControlStateNormal];
     }
 }
 
