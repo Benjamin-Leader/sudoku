@@ -35,6 +35,7 @@ int initialCells[9][9]={
     {1,0,0,1,0,1,1,1,0}
 };
 
+
 - (void) generateGrid {
   
   NSString* file;
@@ -72,10 +73,12 @@ int initialCells[9][9]={
   }
 }
 
+
 - (int) getValueAtRow: (int)row Column: (int)column {
 
   return cells[column][row];
 }
+
 
 - (void) setValueAtRow: (int)row Column: (int)column to: (int)newValue {
 
@@ -84,6 +87,7 @@ int initialCells[9][9]={
   NSAssert(newValue >= 0, @"Invalid: input is too small");
 }
 
+
 - (BOOL) isMutableAtRow: (int)row Column: (int)column {
   if (initialCells[column][row] == 0) {
     return YES;
@@ -91,6 +95,7 @@ int initialCells[9][9]={
     return NO;
   }
 }
+
 
 - (BOOL) isConsistentAtRow: (int)row Column: (int)column for: (int)value
 {

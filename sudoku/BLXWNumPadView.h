@@ -12,5 +12,6 @@
 
 - (void)setValueAtColumn: (int)column to: (NSInteger)value;
 - (int) getCurrentValue;
+- (void)cellSelected:(UIButton*)sender;
 
 @end

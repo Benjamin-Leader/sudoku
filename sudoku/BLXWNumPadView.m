@@ -64,6 +64,7 @@ CGFloat BLXWSmallBoundaryRatio = 44.0;
   return self;
 }
 
+
 - (UIButton*)makeButtonWithSize:(CGFloat)size withXCoord: (CGFloat)x andYCoord: (CGFloat)y
 {
   UIButton *button;
@@ -82,6 +83,7 @@ CGFloat BLXWSmallBoundaryRatio = 44.0;
   
   return button;
 }
+
 
 - (void)highlightButton:(UIButton *)b {
     if (!b.highlighted) {
@@ -102,9 +104,9 @@ CGFloat BLXWSmallBoundaryRatio = 44.0;
   [self performSelector:@selector(highlightButton:) withObject:sender afterDelay:0.0];
   NSString *buttonValue =[[NSString alloc]initWithFormat:@"%ld",(long)sender.tag];
   currentValue = [buttonValue intValue];
-  NSLog(@"Number Pad Button %ld was pressed", (long)btn.tag);
   NSLog(@"Current value is %d", currentValue);
 }
+
 
 - (void)setValueAtColumn: (int)column to: (NSInteger)value
 {

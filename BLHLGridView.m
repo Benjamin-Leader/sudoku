@@ -146,4 +146,32 @@ CGFloat BLHLSmallBoundaryRatio = 72.0;
 }
 
 
+- (void)setAllSameButtonHighlighted:(int)curValue
+{
+  UIButton* btn;
+  for (btn in gridButtons) {
+    [btn setHighlighted:NO];
+  }
+  for (btn in gridButtons) {
+    int titleint = [btn.titleLabel.text integerValue];
+    if (titleint == curValue) {
+      [btn setHighlighted:YES];
+    }
+  }
+}
+
+
+- (void)setAllSameButtonNotHighlighted:(int)curValue
+{
+  UIButton* btn;
+  for (btn in gridButtons) {
+    int titleint = [btn.titleLabel.text integerValue];
+    if (titleint == curValue) {
+      [btn setHighlighted:NO];
+    }
+  }
+}
+
+
+
 @end

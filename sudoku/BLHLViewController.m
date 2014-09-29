@@ -88,11 +88,10 @@
   SudokuLabel.textAlignment =  NSTextAlignmentCenter;
   [self.view addSubview:SudokuLabel];
   
-  
   // create new game button
-  CGFloat newGamePadx = CGRectGetWidth(frame)*.18;
+  CGFloat newGamePadx = CGRectGetWidth(frame)*.15;
   CGFloat newGamePady = CGRectGetHeight(frame)*.18 + size + numPadHeight;
-  CGFloat newGamePadWidth = MIN(CGRectGetWidth(frame), CGRectGetHeight(frame))*.30;
+  CGFloat newGamePadWidth = MIN(CGRectGetWidth(frame), CGRectGetHeight(frame))*.25;
   CGFloat newGamePadHeight = MIN(CGRectGetWidth(frame), CGRectGetHeight(frame))*.80/9.0;
   
   CGRect newGameFrame = CGRectMake(newGamePadx, newGamePady, newGamePadWidth, newGamePadHeight);
@@ -102,15 +101,14 @@
   [newGameButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
   [newGameButton setTitle:@"New Game" forState:UIControlStateNormal];
   [newGameButton setTitleShadowColor:[UIColor grayColor] forState:UIControlStateNormal];
-  newGameButton.showsTouchWhenHighlighted = YES;
   [newGameButton setBackgroundImage:[UIImage imageNamed:@"rainbow1H.png"] forState:UIControlStateHighlighted];
   [self.view addSubview:newGameButton];
   [newGameButton addTarget:self action:@selector(startNewGame:) forControlEvents:UIControlEventTouchUpInside];
   
   // create restart button
-  CGFloat restartx = CGRectGetWidth(frame)*.22 + newGamePadWidth;
+  CGFloat restartx = CGRectGetWidth(frame)*.20 + newGamePadWidth;
   CGFloat restarty = CGRectGetHeight(frame)*.18 + size + numPadHeight;
-  CGFloat restartWidth = MIN(CGRectGetWidth(frame), CGRectGetHeight(frame))*.30;
+  CGFloat restartWidth = MIN(CGRectGetWidth(frame), CGRectGetHeight(frame))*.25;
   CGFloat restartHeight = MIN(CGRectGetWidth(frame), CGRectGetHeight(frame))*.80/9.0;
   
   CGRect restartFrame = CGRectMake(restartx, restarty, restartWidth, restartHeight);
@@ -120,10 +118,35 @@
   [restartButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
   [restartButton setTitle:@"Restart" forState:UIControlStateNormal];
   [restartButton setTitleShadowColor:[UIColor grayColor] forState:UIControlStateNormal];
-  restartButton.showsTouchWhenHighlighted = YES;
   [restartButton setBackgroundImage:[UIImage imageNamed:@"rainbow2H.png"] forState:UIControlStateHighlighted];
   [self.view addSubview:restartButton];
   [restartButton addTarget:self action:@selector(clearGrid:) forControlEvents:UIControlEventTouchUpInside];
+  
+  // Easy mode switch
+  CGFloat switchx = CGRectGetWidth(frame)*.28 + newGamePadWidth + restartWidth;
+  CGFloat switchy = CGRectGetHeight(frame)*.18 + size + numPadHeight + 29;
+  CGFloat switchWidth = MIN(CGRectGetWidth(frame), CGRectGetHeight(frame))*.25;
+  CGFloat switchHeight = MIN(CGRectGetWidth(frame), CGRectGetHeight(frame))*.80/9.0;
+  
+  CGRect switchFrame = CGRectMake(switchx, switchy, switchWidth, switchHeight);
+  
+  UISwitch* easyMode = [[UISwitch alloc] initWithFrame:switchFrame];
+  [easyMode addTarget:self action:@selector(changeEasyMode:) forControlEvents:UIControlEventValueChanged];
+  
+  [self.view addSubview:easyMode];
+  
+  CGFloat switchLx = CGRectGetWidth(frame)*.26 + newGamePadWidth + restartWidth;
+  CGFloat switchLy = CGRectGetHeight(frame)*.18 + size + numPadHeight;
+  CGFloat switchLWidth = MIN(CGRectGetWidth(frame), CGRectGetHeight(frame))*.20;
+  CGFloat switchLHeight = MIN(CGRectGetWidth(frame), CGRectGetHeight(frame))*.80/30.0;
+  
+  CGRect switchLFrame = CGRectMake(switchLx, switchLy, switchLWidth, switchLHeight);
+  
+  UILabel* switchL = [[UILabel alloc] initWithFrame:switchLFrame];
+  switchL.text = @"Easy Mode";
+  
+  [self.view addSubview:switchL];
+  
 }
 
 
@@ -140,6 +163,7 @@
   }
 }
 
+
 - (void)startNewGame:(UIButton*)sender
 {
   UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"My Alert"
@@ -151,8 +175,8 @@
 }
 
 
-
--(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
   if (buttonIndex == 0) {
     [_gridModel generateGrid];
     
@@ -164,9 +188,10 @@
       }
     }
   } else {
-    NSLog(@"1");
+    NSLog(@"cancel");
   }
 }
+
 
 - (void)clearGrid:(UIButton*)sender
 {
@@ -182,10 +207,24 @@
 }
 
 
+- (void)changeEasyMode:(UISwitch *)sender
+{
+  int curValue = [_numPadView getCurrentValue];
+  
+  if (sender.on) {
+    [_gridView setAllSameButtonHighlighted:curValue];
+    
+  } else {
+    [_gridView setAllSameButtonNotHighlighted:curValue];
+  }
+}
+
+
 - (void)didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
 }
+
 
 - (BOOL)prefersStatusBarHidden {
   return YES; }
