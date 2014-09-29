@@ -153,6 +153,7 @@ CGFloat BLHLSmallBoundaryRatio = 72.0;
     [btn setHighlighted:NO];
   }
   for (btn in gridButtons) {
+    //NSLog(@)
     int titleint = [btn.titleLabel.text integerValue];
     if (titleint == curValue) {
       [btn setHighlighted:YES];
@@ -165,10 +166,7 @@ CGFloat BLHLSmallBoundaryRatio = 72.0;
 {
   UIButton* btn;
   for (btn in gridButtons) {
-    int titleint = [btn.titleLabel.text integerValue];
-    if (titleint == curValue) {
-      [btn setHighlighted:NO];
-    }
+    [btn setHighlighted:NO];
   }
 }
 

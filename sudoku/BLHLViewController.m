@@ -165,6 +165,10 @@
     [_gridModel setValueAtRow:row Column:column to:value];
     [_gridView setValueAtRow:row column:column to:value];
   }
+  if (_easyMode.on) {
+    int curValue = [_numPadView getCurrentValue];
+    [_gridView setAllSameButtonHighlighted:curValue];
+  }
 }
 
 
@@ -191,6 +195,9 @@
         [_gridView setInitialValueAtRow: row column: col to: [_gridModel getValueAtRow:row Column:col]];
       }
     }
+    int curValue = [_numPadView getCurrentValue];
+    [_gridView setAllSameButtonNotHighlighted:curValue];
+    [_easyMode setOn:NO];
   } else {
     NSLog(@"cancel");
   }
@@ -208,6 +215,9 @@
       }
     }
   }
+  int curValue = [_numPadView getCurrentValue];
+  [_gridView setAllSameButtonNotHighlighted:curValue];
+  [_easyMode setOn:NO];
 }
 
 
@@ -223,14 +233,14 @@
   }
 }
 
-- (void)dynChangeMode
-{
+//- (void)dynChangeMode
+//{
 //  NSLog(@"dyn called~!");
 //  if (_easyMode.on) {
 //    int curValue = [_numPadView getCurrentValue];
 //    [_gridView setAllSameButtonHighlighted:curValue];
 //  }
-}
+//}
 
 - (void)didReceiveMemoryWarning
 {
