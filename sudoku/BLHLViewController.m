@@ -71,6 +71,24 @@
     [_numPadView setValueAtColumn: col-1 to:col];
   }
   
+  // Create Sudoku Label
+  CGFloat labelx = CGRectGetWidth(frame)*.30;
+  CGFloat labely = CGRectGetHeight(frame)*.02;
+  CGFloat labelWidth = MIN(CGRectGetWidth(frame), CGRectGetHeight(frame))*.40;
+  CGFloat labelHeight = MIN(CGRectGetWidth(frame), CGRectGetHeight(frame))*.80/9.0;
+  
+  CGRect labelFrame = CGRectMake(labelx, labely, labelWidth, labelHeight);
+  
+  UILabel* SudokuLabel = [[UILabel alloc] initWithFrame:labelFrame];
+  [SudokuLabel setBackgroundColor:[UIColor clearColor]];
+  [SudokuLabel setAlpha:0.88];
+  SudokuLabel.text = @"Sudoku Fun";
+  SudokuLabel.font = [UIFont boldSystemFontOfSize:36.0f];
+  SudokuLabel.textColor = [UIColor yellowColor];
+  SudokuLabel.textAlignment =  NSTextAlignmentCenter;
+  [self.view addSubview:SudokuLabel];
+  
+  
   // create new game button
   CGFloat newGamePadx = CGRectGetWidth(frame)*.18;
   CGFloat newGamePady = CGRectGetHeight(frame)*.18 + size + numPadHeight;
@@ -124,14 +142,29 @@
 
 - (void)startNewGame:(UIButton*)sender
 {
-  [_gridModel generateGrid];
-  
-  // put initial values into appropriate cells
-  for (int col = 0; col < 9; ++col) {
-    for (int row = 0; row < 9; ++row) {
-      [_gridView setValueAtRow:row column:col to:0];
-      [_gridView setInitialValueAtRow: row column: col to: [_gridModel getValueAtRow:row Column:col]];
+  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"My Alert"
+                                                  message:@"Are you sure to start a new game?"
+                                                 delegate:self
+                                        cancelButtonTitle:@"YES"
+                                        otherButtonTitles:@"NO", nil];
+  [alert show];
+}
+
+
+
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+  if (buttonIndex == 0) {
+    [_gridModel generateGrid];
+    
+    // put initial values into appropriate cells
+    for (int col = 0; col < 9; ++col) {
+      for (int row = 0; row < 9; ++row) {
+        [_gridView setValueAtRow:row column:col to:0];
+        [_gridView setInitialValueAtRow: row column: col to: [_gridModel getValueAtRow:row Column:col]];
+      }
     }
+  } else {
+    NSLog(@"1");
   }
 }
 

@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BLHLViewController : UIViewController
+@interface BLHLViewController : UIViewController<UIAlertViewDelegate>
+{
+}
 
 - (void) gridCellSelected: (BLHLGridView*) tag;
 
