@@ -82,7 +82,7 @@
   UILabel* SudokuLabel = [[UILabel alloc] initWithFrame:labelFrame];
   [SudokuLabel setBackgroundColor:[UIColor clearColor]];
   [SudokuLabel setAlpha:0.88];
-  SudokuLabel.text = @"Sudoku Fun";
+  SudokuLabel.text = @"~ Sudoku Fun ~";
   SudokuLabel.font = [UIFont boldSystemFontOfSize:36.0f];
   SudokuLabel.textColor = [UIColor yellowColor];
   SudokuLabel.textAlignment =  NSTextAlignmentCenter;
