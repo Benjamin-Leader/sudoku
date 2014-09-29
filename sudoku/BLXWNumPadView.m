@@ -10,6 +10,8 @@
 
 @implementation BLXWNumPadView
 
+id _target;
+SEL _action;
 NSMutableArray* numPadButtons;
 NSMutableArray* cells;
 int currentValue;
@@ -132,6 +134,12 @@ CGFloat BLXWSmallBoundaryRatio = 44.0;
   UIGraphicsEndImageContext();
   
   return image;
+}
+
+-(void)setTarget: (id)target : (SEL)action
+{
+  _target = target;
+  _action = action;
 }
 
 

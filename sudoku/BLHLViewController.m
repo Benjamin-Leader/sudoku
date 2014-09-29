@@ -16,6 +16,7 @@
   BLHLGridView* _gridView;
   BLXWNumPadView* _numPadView;
   BLXWGridModel* _gridModel;
+  UISwitch* _easyMode;
 }
 
 @end
@@ -70,6 +71,8 @@
   for (int col = 1; col <= 9; ++col) {
     [_numPadView setValueAtColumn: col-1 to:col];
   }
+  
+  //[_numPadView setTarget:self :@selector(dynChangeMode)];
   
   // Create Sudoku Label
   CGFloat labelx = CGRectGetWidth(frame)*.30;
@@ -130,10 +133,10 @@
   
   CGRect switchFrame = CGRectMake(switchx, switchy, switchWidth, switchHeight);
   
-  UISwitch* easyMode = [[UISwitch alloc] initWithFrame:switchFrame];
-  [easyMode addTarget:self action:@selector(changeEasyMode:) forControlEvents:UIControlEventValueChanged];
+  _easyMode = [[UISwitch alloc] initWithFrame:switchFrame];
+  [_easyMode addTarget:self action:@selector(changeEasyMode:) forControlEvents:UIControlEventValueChanged];
   
-  [self.view addSubview:easyMode];
+  [self.view addSubview:_easyMode];
   
   CGFloat switchLx = CGRectGetWidth(frame)*.26 + newGamePadWidth + restartWidth;
   CGFloat switchLy = CGRectGetHeight(frame)*.18 + size + numPadHeight;
@@ -154,6 +157,7 @@
 {
   int value = [_numPadView getCurrentValue];
   int tagInt = [tag integerValue];
+  NSLog(@"cell selected: tag %d", tagInt);
   int column = tagInt/10-1;
   int row = tagInt%10-1;
   
@@ -219,6 +223,14 @@
   }
 }
 
+- (void)dynChangeMode
+{
+//  NSLog(@"dyn called~!");
+//  if (_easyMode.on) {
+//    int curValue = [_numPadView getCurrentValue];
+//    [_gridView setAllSameButtonHighlighted:curValue];
+//  }
+}
 
 - (void)didReceiveMemoryWarning
 {
