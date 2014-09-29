@@ -46,7 +46,7 @@
   _gridView = [[BLHLGridView alloc] initWithFrame:gridFrame];
   _gridView.backgroundColor = [UIColor blackColor];
   [self.view addSubview:_gridView];
-  [_gridView setTarget:self :@selector(gridCellSelected:)];
+  [_gridView setTarget:self :@selector(cellSelected:)];
   
   // put initial values into appropriate cells
   for (int col = 0; col < 9; ++col) {
@@ -72,7 +72,7 @@
     [_numPadView setValueAtColumn: col-1 to:col];
   }
   
-  //[_numPadView setTarget:self :@selector(dynChangeMode)];
+  [_numPadView setTarget:self :@selector(cellSelected:)];
   
   // Create Sudoku Label
   CGFloat labelx = CGRectGetWidth(frame)*.30;
@@ -153,21 +153,29 @@
 }
 
 
-- (void) gridCellSelected: (NSNumber*)tag
+- (void) cellSelected: (NSNumber*)tag
 {
-  int value = [_numPadView getCurrentValue];
-  int tagInt = [tag integerValue];
-  NSLog(@"cell selected: tag %d", tagInt);
-  int column = tagInt/10-1;
-  int row = tagInt%10-1;
   
-  if ([_gridModel isConsistentAtRow: row Column: column for: value] && [_gridModel isMutableAtRow:row Column:column]){
-    [_gridModel setValueAtRow:row Column:column to:value];
-    [_gridView setValueAtRow:row column:column to:value];
-  }
-  if (_easyMode.on) {
-    int curValue = [_numPadView getCurrentValue];
-    [_gridView setAllSameButtonHighlighted:curValue];
+  int tagInt = [tag integerValue];
+  if (tagInt < 10) {
+    NSLog(@"dyn called~!");
+    if (_easyMode.on) {
+      [_gridView setAllSameButtonHighlighted:tagInt];
+    }
+  } else {
+    int value = [_numPadView getCurrentValue];
+    NSLog(@"cell selected: tag %d", tagInt);
+    int column = tagInt/10-1;
+    int row = tagInt%10-1;
+    
+    if ([_gridModel isConsistentAtRow: row Column: column for: value] && [_gridModel isMutableAtRow:row Column:column]){
+      [_gridModel setValueAtRow:row Column:column to:value];
+      [_gridView setValueAtRow:row column:column to:value];
+    }
+    if (_easyMode.on) {
+      int curValue = [_numPadView getCurrentValue];
+      [_gridView setAllSameButtonHighlighted:curValue];
+    }
   }
 }
 
@@ -233,11 +241,11 @@
   }
 }
 
-//- (void)dynChangeMode
+//- (void)dynChangeMode:(NSNumber*)value
 //{
 //  NSLog(@"dyn called~!");
 //  if (_easyMode.on) {
-//    int curValue = [_numPadView getCurrentValue];
+//    int curValue = [value intValue];
 //    [_gridView setAllSameButtonHighlighted:curValue];
 //  }
 //}

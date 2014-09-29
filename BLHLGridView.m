@@ -93,6 +93,7 @@ CGFloat BLHLSmallBoundaryRatio = 72.0;
 
 - (void)cellSelected:(UIButton*)sender
 {
+  NSLog(@"cellSelected from gridView");
     UIButton *btn = (UIButton *)sender;
     NSNumber* currentButtonTag = [NSNumber numberWithInteger:btn.tag];
     [_target performSelector:_action withObject:currentButtonTag];
@@ -154,7 +155,7 @@ CGFloat BLHLSmallBoundaryRatio = 72.0;
   }
   for (btn in gridButtons) {
     //NSLog(@)
-    int titleint = [btn.titleLabel.text integerValue];
+    int titleint = [btn.currentTitle integerValue];
     if (titleint == curValue) {
       [btn setHighlighted:YES];
     }

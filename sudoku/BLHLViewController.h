@@ -12,7 +12,7 @@
 {
 }
 
-- (void) gridCellSelected: (BLHLGridView*) tag;
+- (void) cellSelected: (NSNumber*) tag;
 - (void) startNewGame:(UIButton*)sender;
 - (void)clearGrid:(UIButton*)sender;
 - (void)changeEasyMode:(UISwitch *)sender;
