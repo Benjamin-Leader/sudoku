@@ -21,6 +21,9 @@
   int _leftSteps;
   UILabel* _statsLabel;
   NSMutableArray* _myStack;
+  NSMutableArray* _myQueue;
+  int _mySQCount;
+  BOOL _toCleanUp;
 }
 
 @end
@@ -209,10 +212,13 @@
   [redoButton setTitleShadowColor:[UIColor grayColor] forState:UIControlStateNormal];
   redoButton.showsTouchWhenHighlighted = YES;
   [self.view addSubview:redoButton];
-  //[redoButton addTarget:self action:@selector(clearGrid:) forControlEvents:UIControlEventTouchUpInside];
+  [redoButton addTarget:self action:@selector(redoStep) forControlEvents:UIControlEventTouchUpInside];
   
   // initialize the array
   _myStack = [[NSMutableArray alloc] init];
+  _myQueue = [[NSMutableArray alloc] init];
+  
+  _toCleanUp = NO;
 }
 
 
@@ -241,10 +247,14 @@
       int buttonValue = row*100 + column*10 + [_gridModel getValueAtRow:row Column:column];
       NSNumber* stackNumber = [[NSNumber alloc] initWithInteger:buttonValue];
       [self myPush:stackNumber to:_myStack];
-      int countnum = [_myStack count];
       
       [_gridModel setValueAtRow:row Column:column to:value];
       [_gridView setValueAtRow:row column:column to:value];
+      
+      // push the button into the redostack
+      int redoValue = row*100 + column*10 + [_gridModel getValueAtRow:row Column:column];
+      NSNumber* redoNumber = [[NSNumber alloc] initWithInteger:redoValue];
+      [self myEnQueue:redoNumber to:_myQueue];
     }
     if (_easyMode.on) {
       int curValue = [_numPadView getCurrentValue];
@@ -313,6 +323,7 @@
     [UIView commitAnimations];
     
     _myStack = [[NSMutableArray alloc] init];
+    _myQueue = [[NSMutableArray alloc] init];
     
   } else {
     NSLog(@"cancel");
@@ -339,6 +350,7 @@
   _statsLabel.text = myStats;
   
   _myStack = [[NSMutableArray alloc] init];
+  _myQueue = [[NSMutableArray alloc] init];
 }
 
 
@@ -389,6 +401,66 @@
   
   if ([_gridModel getValueAtRow:myRow Column:myCol] == 0) {
     _leftSteps += 1;
+  }
+  
+  if (_toCleanUp == NO) {
+    _mySQCount += 1;
+  } else {
+    _mySQCount = 0;
+    _toCleanUp = NO;
+  }
+}
+
+
+- (void)myEnQueue:(NSNumber *)object to:(NSMutableArray *)myQueue
+{
+  [myQueue addObject:object];
+}
+
+
+- (NSNumber *)myDeQueue: (NSMutableArray *)myQueue {
+  id firstObject = nil;
+  if ([myQueue count] != 0) {
+    firstObject  = myQueue.firstObject;
+    [myQueue removeObjectAtIndex:0];
+  }
+  return firstObject;
+}
+
+
+- (void)redoStep
+{
+  int myRow = 0;
+  int myCol = 0;
+  int myVal = 0;
+  int intStackNumber = 0;
+  
+  if (_toCleanUp == NO) {
+    _toCleanUp = YES;
+    NSLog(@"SQCount : %d", [_myQueue count] - _mySQCount);
+    for (int i = 0; i < [_myQueue count] - _mySQCount; i++) {
+      [self myDeQueue:_myQueue];
+    }
+  }
+  
+  NSNumber *myNum = [self myDeQueue:_myQueue];
+  intStackNumber = [myNum intValue];
+  NSLog(@"intStackNumber is: %d", intStackNumber);
+  NSLog(@"\n");
+  myVal = intStackNumber % 10;
+  myCol = (intStackNumber % 100) / 10;
+  myRow = intStackNumber / 100;
+  
+  [_gridModel setValueAtRow:myRow Column:myCol to:myVal];
+  [_gridView setValueAtRow:myRow column:myCol to:myVal];
+  
+  if (_easyMode.on) {
+    int curValue = [_numPadView getCurrentValue];
+    [_gridView setAllSameButtonHighlighted:curValue];
+  }
+  
+  if ([_gridModel getValueAtRow:myRow Column:myCol] == 0) {
+    _leftSteps -= 1;
   }
 }
 
