@@ -10,6 +10,8 @@
 
 @implementation BLXWNumPadView
 
+id _target;
+SEL _action;
 NSMutableArray* numPadButtons;
 NSMutableArray* cells;
 int currentValue;
@@ -64,6 +66,7 @@ CGFloat BLXWSmallBoundaryRatio = 44.0;
   return self;
 }
 
+
 - (UIButton*)makeButtonWithSize:(CGFloat)size withXCoord: (CGFloat)x andYCoord: (CGFloat)y
 {
   UIButton *button;
@@ -83,6 +86,7 @@ CGFloat BLXWSmallBoundaryRatio = 44.0;
   return button;
 }
 
+
 - (void)highlightButton:(UIButton *)b {
     if (!b.highlighted) {
         [b setHighlighted:YES];
@@ -98,13 +102,13 @@ CGFloat BLXWSmallBoundaryRatio = 44.0;
 
 - (void)cellSelected:(UIButton*)sender
 {
-  UIButton *btn = (UIButton *)sender;
   [self performSelector:@selector(highlightButton:) withObject:sender afterDelay:0.0];
   NSString *buttonValue =[[NSString alloc]initWithFormat:@"%ld",(long)sender.tag];
   currentValue = [buttonValue intValue];
-  NSLog(@"Number Pad Button %ld was pressed", (long)btn.tag);
-  NSLog(@"Current value is %d", currentValue);
+  NSNumber* currentButtonTag = [NSNumber numberWithInteger:sender.tag];
+  [_target performSelector:_action withObject:currentButtonTag];
 }
+
 
 - (void)setValueAtColumn: (int)column to: (NSInteger)value
 {
@@ -130,6 +134,12 @@ CGFloat BLXWSmallBoundaryRatio = 44.0;
   UIGraphicsEndImageContext();
   
   return image;
+}
+
+-(void)setTarget: (id)target : (SEL)action
+{
+  _target = target;
+  _action = action;
 }
 
 

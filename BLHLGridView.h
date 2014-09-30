@@ -15,6 +15,7 @@
 - (UIImage *)imageWithColor:(UIColor *)color;
 - (void) cellSelected: (UIButton*)sender;
 - (void)setTarget: (id)target : (SEL)action;
-
+- (void)setAllSameButtonHighlighted:(int)curValue;
+- (void)setAllSameButtonNotHighlighted:(int)curValue;
 
 @end

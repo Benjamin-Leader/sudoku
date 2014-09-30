@@ -8,6 +8,9 @@
 
 #import "BLXWGridModel.h"
 
+#define YES (BOOL)1
+#define NO (BOOL)0
+
 @implementation BLXWGridModel
 
 
@@ -35,21 +38,60 @@ int initialCells[9][9]={
     {1,0,0,1,0,1,1,1,0}
 };
 
+
 - (void) generateGrid {
+  
+  NSString* file;
+  
+  if ((arc4random() % 2) == 1) {
+    file = @"grid1";
+  } else {
+    file = @"grid2";
+  }
+  
+  NSString* path = [[NSBundle mainBundle] pathForResource:file ofType:@"txt"];
+  NSError* error;
+  
+  NSString* readString =[[NSString alloc] initWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+  
+  NSArray* possibleGrids = [readString componentsSeparatedByString:@"\n"];
+  
+  NSUInteger numberOfGrids = [possibleGrids count];
+  
+  NSInteger gridIndex = arc4random() % numberOfGrids;
+//  NSLog(@"grid index: %d", gridIndex);
+//  NSLog(@"---------------------------------------------------");
+  
+  NSString* gridString = possibleGrids[gridIndex];
+  
+  for (int cell = 0; cell < 81; ++cell ) {
+    NSString* oneCharSubstring = [gridString substringWithRange:NSMakeRange(cell, 1)];
     
+    
+    if ([oneCharSubstring isEqual: @"."]) {
+      cells[cell%9][cell/9] = 0;
+      initialCells[cell%9][cell/9] = 0;
+    } else {
+      cells[cell%9][cell/9] = [[gridString substringWithRange:NSMakeRange(cell, 1)] integerValue];
+      initialCells[cell%9][cell/9] = 1;
+    }
+  }
 }
+
 
 - (int) getValueAtRow: (int)row Column: (int)column {
 
   return cells[column][row];
 }
 
+
 - (void) setValueAtRow: (int)row Column: (int)column to: (int)newValue {
 
   cells[column][row] = newValue;
   NSAssert(newValue < 10, @"Invalid: input is too large");
-  NSAssert(newValue > 0, @"Invalid: input is too small");
+  NSAssert(newValue >= 0, @"Invalid: input is too small");
 }
+
 
 - (BOOL) isMutableAtRow: (int)row Column: (int)column {
   if (initialCells[column][row] == 0) {
@@ -58,6 +100,7 @@ int initialCells[9][9]={
     return NO;
   }
 }
+
 
 - (BOOL) isConsistentAtRow: (int)row Column: (int)column for: (int)value
 {
@@ -70,7 +113,6 @@ int initialCells[9][9]={
         if (cells[i][row] == value) {
             return NO;
         }
-        // NSLog(@"number in the column box: %d", cells[column][i]);
     }
   
   // Check values in the selected row and column
@@ -92,6 +134,21 @@ int initialCells[9][9]={
         }
     }
     
+  return YES;
+}
+
+- (BOOL) isWin
+{
+  for (int i = 0; i < 9; ++i) {
+    for (int j = 0; j < 9; ++j) {
+      if (cells[i][j] == 0) {
+        return NO;
+      }
+      if (![self isConsistentAtRow:i Column:j for:cells[i][j]]) {
+        return NO;
+      }
+    }
+  }
   return YES;
 }
 
