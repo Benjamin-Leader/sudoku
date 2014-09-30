@@ -256,7 +256,7 @@
 
 - (void)startNewGame:(UIButton*)sender
 {
-  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"My Alert"
+  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Game"
                                                   message:@"Are you sure to start a new game?"
                                                  delegate:self
                                         cancelButtonTitle:@"YES"
@@ -375,22 +375,6 @@
     _statsLabel.text = myStats;
 
   }
-}
-
-
-- (void)myEnQueue:(NSNumber *)object to:(NSMutableArray *)myQueue
-{
-  [myQueue addObject:object];
-}
-
-
-- (NSNumber *)myDeQueue: (NSMutableArray *)myQueue {
-  id firstObject = nil;
-  if ([myQueue count] != 0) {
-    firstObject  = myQueue.firstObject;
-    [myQueue removeObjectAtIndex:0];
-  }
-  return firstObject;
 }
 
 
