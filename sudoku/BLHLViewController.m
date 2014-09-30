@@ -20,6 +20,7 @@
   int _totalSteps;
   int _leftSteps;
   UILabel* _statsLabel;
+  NSMutableArray* myStack;
 }
 
 @end
@@ -178,6 +179,39 @@
   _statsLabel.textAlignment =  NSTextAlignmentCenter;
   [self.view addSubview:_statsLabel];
   
+  // create undo and redo button
+  CGFloat undox = CGRectGetWidth(frame)*.1;
+  CGFloat undoy = CGRectGetHeight(frame)*.113 + size;
+  CGFloat undoWidth = MIN(CGRectGetWidth(frame), CGRectGetHeight(frame))*.10;
+  CGFloat undoHeight = MIN(CGRectGetWidth(frame), CGRectGetHeight(frame))*.80/28.0;
+  
+  CGRect undoFrame = CGRectMake(undox, undoy, undoWidth, undoHeight);
+  
+  UIButton* undoButton = [[UIButton alloc] initWithFrame:undoFrame];
+  [undoButton setBackgroundImage:[UIImage imageNamed:@"rainbow2.png"] forState:UIControlStateNormal];
+  [undoButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+  [undoButton setTitle:@"Restart" forState:UIControlStateNormal];
+  [undoButton setTitleShadowColor:[UIColor grayColor] forState:UIControlStateNormal];
+  [undoButton setBackgroundImage:[UIImage imageNamed:@"rainbow2H.png"] forState:UIControlStateHighlighted];
+  [self.view addSubview:undoButton];
+  [undoButton addTarget:self action:@selector(clearGrid:) forControlEvents:UIControlEventTouchUpInside];
+  
+  
+  CGFloat redox = CGRectGetWidth(frame)*.1 + numPadWidth - undoWidth;
+  CGFloat redoy = CGRectGetHeight(frame)*.113 + size;
+  CGFloat redoWidth = MIN(CGRectGetWidth(frame), CGRectGetHeight(frame))*.10;
+  CGFloat redoHeight = MIN(CGRectGetWidth(frame), CGRectGetHeight(frame))*.80/28.0;
+  
+  CGRect redoFrame = CGRectMake(redox, redoy, redoWidth, redoHeight);
+  
+  UIButton* redoButton = [[UIButton alloc] initWithFrame:redoFrame];
+  [redoButton setBackgroundImage:[UIImage imageNamed:@"rainbow2.png"] forState:UIControlStateNormal];
+  [redoButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+  [redoButton setTitle:@"Restart" forState:UIControlStateNormal];
+  [redoButton setTitleShadowColor:[UIColor grayColor] forState:UIControlStateNormal];
+  [redoButton setBackgroundImage:[UIImage imageNamed:@"rainbow2H.png"] forState:UIControlStateHighlighted];
+  [self.view addSubview:redoButton];
+  [redoButton addTarget:self action:@selector(clearGrid:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 
