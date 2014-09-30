@@ -17,6 +17,9 @@
   BLXWNumPadView* _numPadView;
   BLXWGridModel* _gridModel;
   UISwitch* _easyMode;
+  int _totalSteps;
+  int _leftSteps;
+  UILabel* _statsLabel;
 }
 
 @end
@@ -51,9 +54,16 @@
   // put initial values into appropriate cells
   for (int col = 0; col < 9; ++col) {
     for (int row = 0; row < 9; ++row) {
-      [_gridView setInitialValueAtRow: row column: col to: [_gridModel getValueAtRow:row Column:col]];
+      int gButtonValue = [_gridModel getValueAtRow:row Column:col];
+      [_gridView setInitialValueAtRow: row column: col to: gButtonValue];
+      if (gButtonValue == 0) {
+        _totalSteps += 1;
+      }
     }
   }
+  
+  // update total and left steps
+  _leftSteps = _totalSteps;
   
   //create numPad frame
   CGFloat numPadx = CGRectGetWidth(frame)*.1;
@@ -150,6 +160,24 @@
   
   [self.view addSubview:switchL];
   
+  // create stats label
+  CGFloat statsLabelx = CGRectGetWidth(frame)*.30;
+  CGFloat statsLabely = CGRectGetHeight(frame)*.113 + size;
+  CGFloat statsLabelWidth = MIN(CGRectGetWidth(frame), CGRectGetHeight(frame))*.40;
+  CGFloat statsLabelHeight = MIN(CGRectGetWidth(frame), CGRectGetHeight(frame))*.80/28.0;
+  
+  CGRect statsLabelFrame = CGRectMake(statsLabelx, statsLabely, statsLabelWidth, statsLabelHeight);
+  
+  _statsLabel = [[UILabel alloc] initWithFrame:statsLabelFrame];
+  [_statsLabel setBackgroundColor:[UIColor clearColor]];
+  [_statsLabel setAlpha:0.88];
+  NSString* myStats = [[NSString alloc] initWithFormat:@"total: %d -- Left: %d" , _totalSteps, _leftSteps];
+  _statsLabel.text = myStats;
+  _statsLabel.font = [UIFont boldSystemFontOfSize:25.0f];
+  _statsLabel.textColor = [UIColor yellowColor];
+  _statsLabel.textAlignment =  NSTextAlignmentCenter;
+  [self.view addSubview:_statsLabel];
+  
 }
 
 
@@ -158,7 +186,6 @@
   
   int tagInt = [tag integerValue];
   if (tagInt < 10) {
-    NSLog(@"dyn called~!");
     if (_easyMode.on) {
       [_gridView setAllSameButtonHighlighted:tagInt];
     }
@@ -169,6 +196,11 @@
     int row = tagInt%10-1;
     
     if ([_gridModel isConsistentAtRow: row Column: column for: value] && [_gridModel isMutableAtRow:row Column:column]){
+      // update the stats
+      if ([_gridModel getValueAtRow:row Column:column] == 0) {
+        _leftSteps -= 1;
+      }
+      
       [_gridModel setValueAtRow:row Column:column to:value];
       [_gridView setValueAtRow:row column:column to:value];
     }
@@ -177,8 +209,23 @@
       [_gridView setAllSameButtonHighlighted:curValue];
     }
   }
+  
+  NSString* myStats = [[NSString alloc] initWithFormat:@"total: %d -- Left: %d" , _totalSteps, _leftSteps];
+  _statsLabel.text = myStats;
+  
+  // check if win
   BOOL winning = [_gridModel isWin];
   NSLog(@"Do you win?  %d", winning);
+  
+  
+  // update stats label
+  if (winning == 1) {
+    _statsLabel.text = @"You win!";
+  }
+  
+  if (_leftSteps == 0 && winning == 0) {
+    _statsLabel.text = @"Something wrong ==";
+  }
 }
 
 
@@ -203,15 +250,23 @@
     [_gridModel generateGrid];
     
     // put initial values into appropriate cells
+    _totalSteps = 0;
     for (int col = 0; col < 9; ++col) {
       for (int row = 0; row < 9; ++row) {
         [_gridView setValueAtRow:row column:col to:0];
         [_gridView setInitialValueAtRow: row column: col to: [_gridModel getValueAtRow:row Column:col]];
+        int gButtonValue = [_gridModel getValueAtRow:row Column:col];
+        if (gButtonValue == 0) {
+          _totalSteps += 1;
+        }
       }
     }
     int curValue = [_numPadView getCurrentValue];
     [_gridView setAllSameButtonNotHighlighted:curValue];
     [_easyMode setOn:NO];
+    _leftSteps = _totalSteps;
+    NSString* myStats = [[NSString alloc] initWithFormat:@"total: %d -- Left: %d" , _totalSteps, _leftSteps];
+    _statsLabel.text = myStats;
     
     [UIView commitAnimations];
     
@@ -235,6 +290,9 @@
   int curValue = [_numPadView getCurrentValue];
   [_gridView setAllSameButtonNotHighlighted:curValue];
   [_easyMode setOn:NO];
+  _leftSteps = _totalSteps;
+  NSString* myStats = [[NSString alloc] initWithFormat:@"total: %d -- Left: %d" , _totalSteps, _leftSteps];
+  _statsLabel.text = myStats;
 }
 
 
