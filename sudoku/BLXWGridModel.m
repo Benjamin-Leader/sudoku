@@ -8,6 +8,9 @@
 
 #import "BLXWGridModel.h"
 
+#define YES (BOOL)1
+#define NO (BOOL)0
+
 @implementation BLXWGridModel
 
 
@@ -129,6 +132,21 @@ int initialCells[9][9]={
         }
     }
     
+  return YES;
+}
+
+- (BOOL) isWin
+{
+  for (int i = 0; i < 9; ++i) {
+    for (int j = 0; j < 9; ++j) {
+      if (cells[i][j] == 0) {
+        return NO;
+      }
+      if (![self isConsistentAtRow:i Column:j for:cells[i][j]]) {
+        return NO;
+      }
+    }
+  }
   return YES;
 }
 

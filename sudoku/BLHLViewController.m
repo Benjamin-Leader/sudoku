@@ -177,6 +177,8 @@
       [_gridView setAllSameButtonHighlighted:curValue];
     }
   }
+  BOOL winning = [_gridModel isWin];
+  NSLog(@"Do you win?  %d", winning);
 }
 
 
@@ -194,6 +196,10 @@
 -(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
   if (buttonIndex == 0) {
+    
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:5];
+    
     [_gridModel generateGrid];
     
     // put initial values into appropriate cells
@@ -206,6 +212,9 @@
     int curValue = [_numPadView getCurrentValue];
     [_gridView setAllSameButtonNotHighlighted:curValue];
     [_easyMode setOn:NO];
+    
+    [UIView commitAnimations];
+    
   } else {
     NSLog(@"cancel");
   }
