@@ -312,6 +312,8 @@
     
     [UIView commitAnimations];
     
+    _myStack = [[NSMutableArray alloc] init];
+    
   } else {
     NSLog(@"cancel");
   }
@@ -335,6 +337,8 @@
   _leftSteps = _totalSteps;
   NSString* myStats = [[NSString alloc] initWithFormat:@"total: %d -- Left: %d" , _totalSteps, _leftSteps];
   _statsLabel.text = myStats;
+  
+  _myStack = [[NSMutableArray alloc] init];
 }
 
 
