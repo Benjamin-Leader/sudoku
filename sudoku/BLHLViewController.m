@@ -20,7 +20,7 @@
   int _totalSteps;
   int _leftSteps;
   UILabel* _statsLabel;
-  NSMutableArray* myStack;
+  NSMutableArray* _myStack;
 }
 
 @end
@@ -188,13 +188,12 @@
   CGRect undoFrame = CGRectMake(undox, undoy, undoWidth, undoHeight);
   
   UIButton* undoButton = [[UIButton alloc] initWithFrame:undoFrame];
-  [undoButton setBackgroundImage:[UIImage imageNamed:@"rainbow2.png"] forState:UIControlStateNormal];
   [undoButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-  [undoButton setTitle:@"Restart" forState:UIControlStateNormal];
+  [undoButton setTitle:@"<- Undo" forState:UIControlStateNormal];
   [undoButton setTitleShadowColor:[UIColor grayColor] forState:UIControlStateNormal];
-  [undoButton setBackgroundImage:[UIImage imageNamed:@"rainbow2H.png"] forState:UIControlStateHighlighted];
+  undoButton.showsTouchWhenHighlighted = YES;
   [self.view addSubview:undoButton];
-  [undoButton addTarget:self action:@selector(clearGrid:) forControlEvents:UIControlEventTouchUpInside];
+  //[undoButton addTarget:self action:@selector(clearGrid:) forControlEvents:UIControlEventTouchUpInside];
   
   
   CGFloat redox = CGRectGetWidth(frame)*.1 + numPadWidth - undoWidth;
@@ -205,13 +204,12 @@
   CGRect redoFrame = CGRectMake(redox, redoy, redoWidth, redoHeight);
   
   UIButton* redoButton = [[UIButton alloc] initWithFrame:redoFrame];
-  [redoButton setBackgroundImage:[UIImage imageNamed:@"rainbow2.png"] forState:UIControlStateNormal];
   [redoButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-  [redoButton setTitle:@"Restart" forState:UIControlStateNormal];
+  [redoButton setTitle:@"Redo ->" forState:UIControlStateNormal];
   [redoButton setTitleShadowColor:[UIColor grayColor] forState:UIControlStateNormal];
-  [redoButton setBackgroundImage:[UIImage imageNamed:@"rainbow2H.png"] forState:UIControlStateHighlighted];
+  redoButton.showsTouchWhenHighlighted = YES;
   [self.view addSubview:redoButton];
-  [redoButton addTarget:self action:@selector(clearGrid:) forControlEvents:UIControlEventTouchUpInside];
+  //[redoButton addTarget:self action:@selector(clearGrid:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 
@@ -342,14 +340,18 @@
   }
 }
 
-//- (void)dynChangeMode:(NSNumber*)value
-//{
-//  NSLog(@"dyn called~!");
-//  if (_easyMode.on) {
-//    int curValue = [value intValue];
-//    [_gridView setAllSameButtonHighlighted:curValue];
-//  }
-//}
+
+- (void)push:(id)object {
+  [_myStack addObject:object];
+}
+
+
+- (id)pop {
+  id lastObject = [_myStack lastObject];
+  [_myStack removeLastObject];
+  return lastObject;
+}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -357,7 +359,9 @@
 }
 
 
-- (BOOL)prefersStatusBarHidden {
-  return YES; }
+- (BOOL)prefersStatusBarHidden
+{
+  return YES;
+}
 
 @end
