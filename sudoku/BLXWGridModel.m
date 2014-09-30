@@ -8,8 +8,6 @@
 
 #import "BLXWGridModel.h"
 
-#define YES (BOOL)1
-#define NO (BOOL)0
 
 @implementation BLXWGridModel
 
@@ -59,8 +57,6 @@ int initialCells[9][9]={
   NSUInteger numberOfGrids = [possibleGrids count];
   
   NSInteger gridIndex = arc4random() % numberOfGrids;
-//  NSLog(@"grid index: %d", gridIndex);
-//  NSLog(@"---------------------------------------------------");
   
   NSString* gridString = possibleGrids[gridIndex];
   
