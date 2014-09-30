@@ -48,7 +48,7 @@
   
   // create grid view
   _gridView = [[BLHLGridView alloc] initWithFrame:gridFrame];
-  _gridView.backgroundColor = [UIColor blackColor];
+  _gridView.backgroundColor = [UIColor clearColor];
   [self.view addSubview:_gridView];
   [_gridView setTarget:self :@selector(cellSelected:)];
   
@@ -76,7 +76,7 @@
   
   // create numpad view
   _numPadView = [[BLXWNumPadView alloc] initWithFrame:myNumPadFrame];
-  _numPadView.backgroundColor = [UIColor blackColor];
+  _numPadView.backgroundColor = [UIColor clearColor];
   [self.view addSubview:_numPadView];
   
   for (int col = 1; col <= 9; ++col) {
@@ -193,7 +193,7 @@
   [undoButton setTitleShadowColor:[UIColor grayColor] forState:UIControlStateNormal];
   undoButton.showsTouchWhenHighlighted = YES;
   [self.view addSubview:undoButton];
-  //[undoButton addTarget:self action:@selector(clearGrid:) forControlEvents:UIControlEventTouchUpInside];
+  [undoButton addTarget:self action:@selector(undoStep) forControlEvents:UIControlEventTouchUpInside];
   
   
   CGFloat redox = CGRectGetWidth(frame)*.1 + numPadWidth - undoWidth;
@@ -210,6 +210,9 @@
   redoButton.showsTouchWhenHighlighted = YES;
   [self.view addSubview:redoButton];
   //[redoButton addTarget:self action:@selector(clearGrid:) forControlEvents:UIControlEventTouchUpInside];
+  
+  // initialize the array
+  _myStack = [[NSMutableArray alloc] init];
 }
 
 
@@ -223,15 +226,22 @@
     }
   } else {
     int value = [_numPadView getCurrentValue];
-    NSLog(@"cell selected: tag %d", tagInt);
     int column = tagInt/10-1;
     int row = tagInt%10-1;
     
+    // when some cell could change
     if ([_gridModel isConsistentAtRow: row Column: column for: value] && [_gridModel isMutableAtRow:row Column:column]){
       // update the stats
       if ([_gridModel getValueAtRow:row Column:column] == 0) {
         _leftSteps -= 1;
       }
+      
+      // push the button into the stack
+      // we have to do before change value
+      int buttonValue = row*100 + column*10 + [_gridModel getValueAtRow:row Column:column];
+      NSNumber* stackNumber = [[NSNumber alloc] initWithInteger:buttonValue];
+      [self myPush:stackNumber to:_myStack];
+      int countnum = [_myStack count];
       
       [_gridModel setValueAtRow:row Column:column to:value];
       [_gridView setValueAtRow:row column:column to:value];
@@ -341,15 +351,41 @@
 }
 
 
-- (void)push:(id)object {
-  [_myStack addObject:object];
+- (void)myPush:(NSNumber *)object to:(NSMutableArray *)myStack
+{
+  [myStack addObject:object];
 }
 
 
-- (id)pop {
-  id lastObject = [_myStack lastObject];
-  [_myStack removeLastObject];
+- (NSNumber *)myPop: (NSMutableArray *)myStack {
+  id lastObject = [myStack lastObject];
+  [myStack removeLastObject];
   return lastObject;
+}
+
+- (void)undoStep
+{
+  int myRow = 0;
+  int myCol = 0;
+  int myVal = 0;
+  int intStackNumber = 0;
+  NSNumber *myNum = [self myPop:_myStack];
+  intStackNumber = [myNum intValue];
+  myVal = intStackNumber % 10;
+  myCol = (intStackNumber % 100) / 10;
+  myRow = intStackNumber / 100;
+
+  [_gridModel setValueAtRow:myRow Column:myCol to:myVal];
+  [_gridView setValueAtRow:myRow column:myCol to:myVal];
+  
+  if (_easyMode.on) {
+    int curValue = [_numPadView getCurrentValue];
+    [_gridView setAllSameButtonHighlighted:curValue];
+  }
+  
+  if ([_gridModel getValueAtRow:myRow Column:myCol] == 0) {
+    _leftSteps += 1;
+  }
 }
 
 
