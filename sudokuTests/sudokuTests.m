@@ -144,19 +144,30 @@ int initialCells2[9][9]={
     XCTAssertTrue([_model isConsistentAtRow:0 Column:6 for:1], @"Testing consistent");
 }
 
-//- (void)testIncorrectValues
-//{
-//    XCTAssertThrowsSpecific([_model setValueAtRow:1 Column:1 to:10], NSException, @"Converting more than max value");
-//    XCTAssertThrowsSpecific([_model setValueAtRow:1 Column:1 to:0], NSException, @"Converting less than min value");
-//    
-//    XCTAssertThrowsSpecific([_model isConsistentAtRow:1 Column:1 for:10], NSException, @"Converting more than max value");
-//    XCTAssertThrowsSpecific([_model isConsistentAtRow:1 Column:1 for:0], NSException, @"Converting less than min value");
-//
-//}
+- (void)testIncorrectValues
+{
+    XCTAssertThrowsSpecific([_model setValueAtRow:1 Column:1 to:10], NSException, @"Converting more than max value");
+    XCTAssertThrowsSpecific([_model setValueAtRow:1 Column:1 to:-1], NSException, @"Converting less than min value");
+    
+    XCTAssertThrowsSpecific([_model isConsistentAtRow:1 Column:1 for:10], NSException, @"Converting more than max value");
+    XCTAssertThrowsSpecific([_model isConsistentAtRow:1 Column:1 for:-1], NSException, @"Converting less than min value");
+
+}
 
 - (void)testGenerator
 {
-  
+  BOOL different = NO;
+  [_model generateGrid];
+  [_model2 generateGrid];
+  for (int column = 0; column < 9; ++column) {
+    for (int row = 0; row < 9; ++row) {
+      if ([_model getValueAtRow:row Column:column] != [_model2 getValueAtRow:row Column:column] || [_model2 getValueAtRow:row Column:column] == 0) {
+        different = YES;
+        break;
+      }
+    }
+  }
+  XCTAssertTrue(different, @"Testing generating different grids");
 }
 
 @end

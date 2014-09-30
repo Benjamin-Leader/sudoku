@@ -105,7 +105,6 @@ CGFloat BLXWSmallBoundaryRatio = 44.0;
   [self performSelector:@selector(highlightButton:) withObject:sender afterDelay:0.0];
   NSString *buttonValue =[[NSString alloc]initWithFormat:@"%ld",(long)sender.tag];
   currentValue = [buttonValue intValue];
-  NSLog(@"Current value is %d", currentValue);
   NSNumber* currentButtonTag = [NSNumber numberWithInteger:sender.tag];
   [_target performSelector:_action withObject:currentButtonTag];
 }
@@ -146,7 +145,6 @@ CGFloat BLXWSmallBoundaryRatio = 44.0;
 
 - (int) getCurrentValue
 {
-  NSLog(@"current value is %d", currentValue);
   return currentValue;
 }
 
