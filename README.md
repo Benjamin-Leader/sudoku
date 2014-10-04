@@ -30,7 +30,7 @@ steps and steps left.
 
 4 The player could turn on the easy mode, by which, the number selected
 on the number-pad would be highlighted on the grid, so the player would
-now where he/she could not fill that number on the gred.
+now where he/she could not fill that number on the grid.
 
 Last
 ======
